@@ -1,0 +1,12 @@
+{
+  "mode": "sandbox",
+  "max_rounds": 20,
+  "topic": "Falcom BotScalp — Refactor do workspace + Paper Trading",
+  "allow_exec": false,
+  "gpt_model": "gpt-5",
+  "claude_model": "claude-3-7-sonnet",
+  "coder_model": "gpt-5-mini",
+  "coder_enabled": true,
+  "round_delay_s": 1.0,
+  "supervised_only": true
+}

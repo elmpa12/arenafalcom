@@ -1,0 +1,42 @@
+{
+  "account": {
+    "notional_usd": 100.0,
+    "leverage": 1,
+    "fee_perc": 0.0004,
+    "slippage_ticks": 1,
+    "tick_size": 0.10,
+    "min_qty": 0.001
+  },
+  "risk": {
+    "atr_stop_mult": 3.0,
+    "timeout_bars": 90,
+    "max_hold_bars": {
+      "1m": 180,
+      "3m": 120,
+      "5m": 96,
+      "15m": 48
+    },
+    "hard_stop_usd": 120.0,
+    "hard_tp_usd": 420.0
+  },
+  "execution": {
+    "neutral_band": 0.02,
+    "target_trades_per_day": 5,
+    "long_short_sym": true,
+    "round_to_tick": true,
+    "apply_commissions": true,
+    "apply_slippage": true
+  },
+  "selector": {
+    "prob_threshold_long": 0.58,
+    "prob_threshold_short": 0.42,
+    "use_dl_merge": true,
+    "calibration": "isotonic"
+  },
+  "reporting": {
+    "log_trades": "logs/paper_trades.log",
+    "metrics_file": "reports/paper_metrics.json",
+    "daily_report": "reports/daily.md",
+    "weekly_report": "reports/weekly.md"
+  }
+}
