@@ -1,0 +1,160 @@
+{
+  "version": "1.0",
+  "description": "Claude Code configuration for botscalpv3 dual-AI system",
+  "mode": "planner-executor",
+  "roles": {
+    "planner": {
+      "name": "Claude Planner",
+      "description": "Strategic planning, specs, architecture",
+      "api": "anthropic",
+      "model": "claude-opus-4-1",
+      "temperature": 0.3,
+      "max_tokens": 8000,
+      "context_window": 200000,
+      "capabilities": [
+        "long-context-assimilation",
+        "spec-generation",
+        "architecture-review",
+        "conceptual-reasoning"
+      ]
+    },
+    "executor": {
+      "name": "Codex Executor",
+      "description": "Implementation, optimization, precision code",
+      "api": "openai",
+      "model": "gpt-5-codex",
+      "temperature": 0.2,
+      "max_tokens": 4000,
+      "context_window": 128000,
+      "capabilities": [
+        "implementation",
+        "optimization",
+        "testing",
+        "precision-code"
+      ]
+    },
+    "iterative": {
+      "name": "Claude Code Iterative",
+      "description": "Interactive refinement with direct file editing",
+      "api": "anthropic",
+      "model": "claude-opus-4-1",
+      "temperature": 0.4,
+      "max_tokens": 4000,
+      "context_window": 200000,
+      "mcp_servers": [
+        "filesystem",
+        "git",
+        "bash"
+      ],
+      "capabilities": [
+        "direct-file-editing",
+        "command-execution",
+        "git-operations",
+        "interactive-refinement"
+      ]
+    }
+  },
+  "pipeline": {
+    "default_flow": [
+      {
+        "stage": 1,
+        "name": "PLAN",
+        "role": "planner",
+        "description": "Claude reads project, creates spec.md",
+        "input_format": "project_path + requirements",
+        "output_format": "spec.md + example snippets",
+        "temperature": 0.3
+      },
+      {
+        "stage": 2,
+        "name": "ITERATE",
+        "role": "iterative",
+        "description": "Claude Code refines spec with user feedback",
+        "input_format": "spec.md + feedback",
+        "output_format": "spec.md (refined) + implementation examples",
+        "temperature": 0.4,
+        "interactive": true,
+        "mcp_enabled": true
+      },
+      {
+        "stage": 3,
+        "name": "BUILD",
+        "role": "executor",
+        "description": "Codex implements from spec with tests",
+        "input_format": "spec.md + codebase",
+        "output_format": "implementation.py + tests.py + REVIEW.md",
+        "temperature": 0.2
+      },
+      {
+        "stage": 4,
+        "name": "REVIEW",
+        "role": "planner+executor",
+        "description": "Cross-review: Claude (concept) + Codex (technical)",
+        "input_format": "implementation.py",
+        "output_format": "REVIEW.md + fixes",
+        "temperature": 0.2
+      }
+    ]
+  },
+  "git_integration": {
+    "auto_branch": true,
+    "branch_prefix": "feature/",
+    "commit_template": "feat: {task}\n\n- Planned by: {planner_decision}\n- Implemented by: {executor_decision}\n- Reviewed by: cross-analysis",
+    "auto_commit_on_complete": true
+  },
+  "logging": {
+    "journal_file": "JOURNAL.txt",
+    "log_level": "DEBUG",
+    "log_format": "timestamp | role | task | status | duration",
+    "auto_entry": true
+  },
+  "mcp_servers": {
+    "filesystem": {
+      "enabled": true,
+      "allowed_paths": [
+        "/opt/botscalpv3"
+      ],
+      "readonly": false,
+      "full_access": true,
+      "can_modify": true,
+      "can_delete": true,
+      "can_create": true,
+      "restrictions": "NONE"
+    },
+    "git": {
+      "enabled": true,
+      "repo_path": "/opt/botscalpv3",
+      "auto_commit": true,
+      "auto_branch": true
+    },
+    "bash": {
+      "enabled": true,
+      "allowed_commands": [
+        "python",
+        "node",
+        "npm",
+        "git",
+        "pytest",
+        "grep",
+        "tail",
+        "find",
+        "chmod",
+        "chown"
+      ]
+    }
+  },
+  "personalities": {
+    "planner": "Claude é o PLANEJADOR estratégico. Lê TUDO, entende profundamente, cria specs perfeitas, propõe arquitetura impossível de quebrar.",
+    "executor": "Codex é o EXECUTOR implacável. Transforma specs em código perfeito, championship-grade, microsegundos, Sharpe>3.",
+    "iterative": "Claude Code é ITERATIVO — refina specs em tempo real, user feedback inline, edita arquivos, roda testes, evolui."
+  },
+  "safety": {
+    "max_file_size_mb": 50,
+    "require_confirmation_on": [
+      "delete_operations",
+      "git_push",
+      "breaking_changes"
+    ],
+    "validate_before_execute": true
+  }
+}

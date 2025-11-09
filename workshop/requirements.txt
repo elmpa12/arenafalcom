@@ -1,0 +1,151 @@
+# ============================================================================
+# BOTSCALP V3 - REQUIREMENTS COMPLETO
+# ============================================================================
+# Data: 2025-11-08
+# Python: 3.9+
+#
+# INSTALAÇÃO:
+#   bash setup.sh
+#
+# OU manualmente:
+#   python3 -m venv venv
+#   source venv/bin/activate
+#   pip install --upgrade pip setuptools wheel
+#   pip install -r requirements.txt
+#
+# ============================================================================
+
+# ============================================================================
+# CORE - Essenciais
+# ============================================================================
+python-dotenv>=1.0.0          # Variáveis de ambiente (.env)
+requests>=2.31.0              # HTTP requests
+pyyaml>=6.0                   # YAML parsing
+
+# ============================================================================
+# AWS CLOUD - EC2, S3, Lambda
+# ============================================================================
+boto3>=1.34.0                 # AWS SDK
+botocore>=1.34.0              # AWS Core
+paramiko>=3.4.0               # SSH para EC2
+awscli>=1.36.0                # AWS CLI
+
+# ============================================================================
+# WEB SERVICES - FastAPI + Backend
+# ============================================================================
+fastapi>=0.115.0              # Web framework
+uvicorn[standard]>=0.32.0     # ASGI server
+pydantic>=2.9.0               # Data validation
+pydantic-settings>=2.0.0      # Settings management
+orjson>=3.10.0                # Fast JSON
+
+# ============================================================================
+# DATA SCIENCE - Análise de Dados
+# ============================================================================
+numpy>=1.24.0,<2.0            # Arrays numéricos
+scipy>=1.11.0                 # Computação científica
+pandas>=2.2.0                 # DataFrames (2.2+ é compatível com numpy moderno)
+pyarrow>=14.0.0               # Parquet/Arrow (compressão Zstd!)
+
+# ============================================================================
+# MACHINE LEARNING - XGBoost, RandomForest, LogReg
+# ============================================================================
+scikit-learn>=1.3.0           # ML clássico
+xgboost>=2.0.0                # Gradient boosting
+imbalanced-learn>=0.11.0      # SMOTE, balanceamento
+
+# ============================================================================
+# DEEP LEARNING - PyTorch (GPU)
+# ============================================================================
+# IMPORTANTE: Para GPU, instale torch ANTES via:
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+#
+# Para CPU apenas:
+torch>=2.1.0                  # PyTorch
+torchvision>=0.16.0           # Computer vision
+torchaudio>=2.1.0             # Audio processing
+
+# ============================================================================
+# TRADING - Binance, Análise Técnica
+# ============================================================================
+binance-connector>=3.7.0      # Binance REST + WebSocket
+# ccxt>=4.2.0                 # Multi-exchange (opcional)
+pandas-ta==0.4.67b0           # Technical Analysis (RSI, MACD, ATR, etc) - versão fixa para compatibilidade
+numba>=0.61.0                 # Necessário para pandas-ta
+ta-lib; platform_system!="Windows"  # TA-Lib (opcional, requer instalação manual no Windows)
+
+# ============================================================================
+# AI APIs - OpenAI (GPT) e Anthropic (Claude)
+# ============================================================================
+openai>=1.0.0                 # GPT-4, GPT-4o
+anthropic>=0.18.0             # Claude Sonnet 4, Opus 4
+
+# ============================================================================
+# WEBSOCKETS - Real-time Data
+# ============================================================================
+websockets>=12.0              # WebSocket client/server
+python-binance>=1.0.19        # Binance WebSocket (alternativa)
+
+# ============================================================================
+# UTILS - Utilitários
+# ============================================================================
+tqdm>=4.66.0                  # Progress bars
+psutil>=5.9.0                 # System monitoring (CPU, RAM)
+pynvml>=11.5.0                # NVIDIA GPU monitoring
+
+# ============================================================================
+# DEVELOPMENT - Testes e Formatação
+# ============================================================================
+pytest>=8.3.0                 # Testing framework
+pytest-cov>=5.0.0             # Coverage
+pytest-asyncio>=0.23.0        # Async tests
+ruff>=0.6.0                   # Linter ultra-rápido
+black>=24.10.0                # Code formatter
+mypy>=1.8.0                   # Type checking
+
+# ============================================================================
+# OPCIONAL - Visualização e Notebooks
+# ============================================================================
+# matplotlib>=3.8.0           # Plotting
+# seaborn>=0.13.0             # Statistical plots
+# plotly>=5.18.0              # Interactive plots
+# jupyter>=1.0.0              # Jupyter notebooks
+# jupyterlab>=4.0.0           # JupyterLab
+
+# ============================================================================
+# OPCIONAL - Database
+# ============================================================================
+# sqlalchemy>=2.0.0           # ORM
+# psycopg2-binary>=2.9.0      # PostgreSQL
+# redis>=5.0.0                # Redis cache
+
+# ============================================================================
+# OPCIONAL - Monitoring
+# ============================================================================
+# prometheus-client>=0.19.0   # Prometheus metrics
+# sentry-sdk>=1.40.0          # Error tracking
+
+# ============================================================================
+# NOTAS IMPORTANTES
+# ============================================================================
+#
+# 1. PYTORCH GPU:
+#    Para treinar na GPU, instale torch ANTES com:
+#    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+#
+# 2. TA-LIB:
+#    No Ubuntu/Debian:
+#      sudo apt-get install ta-lib libta-lib-dev
+#      pip install ta-lib
+#
+#    No macOS:
+#      brew install ta-lib
+#      pip install ta-lib
+#
+# 3. POLARS (alternativa ao pandas):
+#    pip install polars  # 10-15x mais rápido que pandas
+#
+# 4. DUCKDB (queries SQL em parquet):
+#    pip install duckdb  # Para queries rápidas
+#
+# ============================================================================

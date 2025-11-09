@@ -1,0 +1,37 @@
+{
+  "trade_00001": {
+    "timestamp": "2025-11-08T02:37:05.973241",
+    "reasoning": null,
+    "choice": null,
+    "alternatives_considered": [],
+    "impact": null
+  },
+  "trade_00002": {
+    "timestamp": "2025-11-08T02:37:05.974005",
+    "reasoning": null,
+    "choice": null,
+    "alternatives_considered": [],
+    "impact": null
+  },
+  "trade_00003": {
+    "timestamp": "2025-11-08T02:37:05.974824",
+    "reasoning": null,
+    "choice": null,
+    "alternatives_considered": [],
+    "impact": null
+  },
+  "trade_00004": {
+    "timestamp": "2025-11-08T02:37:05.975639",
+    "reasoning": null,
+    "choice": null,
+    "alternatives_considered": [],
+    "impact": null
+  },
+  "trade_00005": {
+    "timestamp": "2025-11-08T02:37:05.976477",
+    "reasoning": null,
+    "choice": null,
+    "alternatives_considered": [],
+    "impact": null
+  }
+}

@@ -1,0 +1,37 @@
+TAREFA: Criar orquestrador mestre para BotScalp v3
+
+SCRIPTS EXISTENTES:
+1. aws_gpu_launcher.py - Provisiona instâncias GPU na AWS
+2. orchestrator.py - Coordena selector local + DL remoto via SSH
+3. selector21.py - Sistema de seleção de estratégias com ML/WFO (230KB)
+4. dl_heads_v8.py - Deep Learning models (GRU, TCN, etc)
+5. heads.py - Definições de features
+
+OBJETIVO:
+Criar UM comando único que execute todo o pipeline:
+  python3 run_botscalp.py --full-pipeline
+
+REQUISITOS:
+1. Provisionar GPU na AWS (se necessário)
+2. Rodar selector21.py localmente (gera features + backtests)
+3. Transferir dados para GPU remota
+4. Rodar dl_heads_v8.py na GPU
+5. Baixar resultados
+6. Consolidar tudo
+7. Gerar relatório final
+
+DESAFIOS:
+- Gerenciar estado entre etapas
+- Handle erros em cada fase
+- Cleanup de recursos AWS
+- Logs unificados
+- Retry logic
+- Progress tracking
+
+SAÍDA ESPERADA:
+Um script Python "master_orchestrator.py" que:
+- Seja configurável via CLI ou .env
+- Tenha modo dry-run para testar
+- Gere logs claros de cada etapa
+- Salve checkpoints para retomar
+- Cleanup automático em caso de erro

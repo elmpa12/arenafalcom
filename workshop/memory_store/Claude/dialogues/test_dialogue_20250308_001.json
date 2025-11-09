@@ -1,0 +1,30 @@
+{
+  "dialogue_id": "test_dialogue_20250308_001",
+  "timestamp": "2025-11-08T02:27:58.214581",
+  "agent_role": "Strategist",
+  "dialogue": {
+    "dialogue_id": "test_dialogue_20250308_001",
+    "requirement": "Test requirement",
+    "consensus_reached": true,
+    "rounds": 3,
+    "exchange": [
+      {
+        "round": 1,
+        "speaker": "Claude",
+        "message": "Test message 1"
+      },
+      {
+        "round": 2,
+        "speaker": "Codex",
+        "message": "Test message 2"
+      },
+      {
+        "round": 3,
+        "speaker": "Claude",
+        "message": "Test message 3"
+      }
+    ]
+  },
+  "my_contribution": null,
+  "other_agent": "Codex"
+}

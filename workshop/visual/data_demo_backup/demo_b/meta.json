@@ -1,0 +1,60 @@
+{
+  "id": "demo_b",
+  "symbol": "ETHUSDT",
+  "timeframe": "15m",
+  "start": "2025-02-01T00:00:00Z",
+  "end": "2025-02-01T04:00:00Z",
+  "n_frames": 16,
+  "n_trades": 2,
+  "params": {
+    "strategy": "selector21",
+    "lags": 96,
+    "risk": 0.3
+  },
+  "kpis": {
+    "winrate": 0.5,
+    "sharpe": 1.1,
+    "max_drawdown": 85.0,
+    "profit_factor": 1.3,
+    "expectancy": 32.0,
+    "avg_trade": 32.0,
+    "n_trades": 2,
+    "hit_long": 0.5,
+    "hit_short": 0.5
+  },
+  "pipelines": [
+    {
+      "id": "combo-base",
+      "name": "Combos Base",
+      "type": "base",
+      "description": "Estratégia de combinações com filtros clássicos.",
+      "edge": 0.12,
+      "kpis": {
+        "winrate": 0.52,
+        "expectancy": 21.0
+      }
+    },
+    {
+      "id": "dl-hibrido",
+      "name": "Hybrid Transformer",
+      "type": "dl",
+      "description": "Arquitetura híbrida com convoluções + attention.",
+      "edge": 0.37,
+      "kpis": {
+        "winrate": 0.57,
+        "expectancy": 36.5
+      }
+    },
+    {
+      "id": "ensemble-ml",
+      "name": "Meta Ensemble",
+      "type": "ml",
+      "description": "Blending de XGBoost, redes shallow e regressão.",
+      "edge": 0.28,
+      "kpis": {
+        "winrate": 0.55,
+        "expectancy": 28.2
+      }
+    }
+  ]
+}

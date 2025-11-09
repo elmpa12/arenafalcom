@@ -1,0 +1,103 @@
+# ============================================================================
+# DADOS DE MERCADO (GRANDE VOLUME)
+# ============================================================================
+data/
+datafull/
+mergedata/
+in/
+out/
+work/
+work_test/
+tmp/
+tmp2/
+logs/
+
+# Formatos de dados
+*.parquet
+*.csv
+*.feather
+*.hdf5
+*.h5
+
+# Arquivos comprimidos
+*.zip
+*.tar
+*.gz
+*.7z
+
+# ============================================================================
+# AMBIENTES VIRTUAIS E SECRETS
+# ============================================================================
+.venv/
+.venv*/
+venv/
+env/
+
+.env
+*.env
+.env.*
+
+# Credenciais e certificados
+*.key
+*.pem
+*.p12
+*.crt
+*.der
+*.cer
+**/secrets/**
+
+# ============================================================================
+# PYTHON
+# ============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# ============================================================================
+# LOGS E TEMPORÁRIOS
+# ============================================================================
+*.log
+*.out
+nohup.out
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Session storage
+.session_storage.json
+
+# ============================================================================
+# IDEs
+# ============================================================================
+.vscode/
+.idea/
+*.sublime-*
+
+# ============================================================================
+# OUTROS
+# ============================================================================
+constraints.txt
+fix_pandas.sh
+req-rest.txt

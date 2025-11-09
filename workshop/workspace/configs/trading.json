@@ -1,0 +1,31 @@
+{
+  "account": {
+    "notional_usd": 100.0,
+    "fee_perc": 0.0004,
+    "slippage_ticks": 1,
+    "tick_size": 0.10
+  },
+  "risk": {
+    "atr_stop_mult": 3.0,
+    "atr_len": 14,
+    "timeout_bars": 90,
+    "max_hold_bars": {
+      "1m": 180,
+      "5m": 120,
+      "15m": 80
+    }
+  },
+  "execution": {
+    "neutral_band": 0.02,
+    "target_trades_per_day": 5,
+    "long_short_sym": true,
+    "min_prob_long": 0.55,
+    "min_prob_short": 0.45
+  },
+  "reporting": {
+    "daily_report": "reports/daily.md",
+    "weekly_report": "reports/weekly.md",
+    "logs_dir": "logs",
+    "trades_csv": "reports/paper_trades.csv"
+  }
+}

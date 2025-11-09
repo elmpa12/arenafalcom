@@ -1,0 +1,14 @@
+{
+  "instance_id": "i-0c98ea0f63170edc3",
+  "launch_time": "2025-11-08T15:43:18+00:00",
+  "name": "BotScalp-DL-g5-ondemand",
+  "private_ip": "172.31.36.67",
+  "provider": "aws",
+  "public_ip": "54.172.227.79",
+  "region": "us-east-1",
+  "state": "running",
+  "tags": {
+    "Name": "BotScalp-DL-g5-ondemand",
+    "Project": "BotScalp"
+  }
+}

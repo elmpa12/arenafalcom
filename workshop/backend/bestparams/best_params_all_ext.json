@@ -1,0 +1,475 @@
+{
+  "version": 1,
+  "timeframes": {
+    "1m": [
+      {
+        "id": "maj2-ema_crossover-macd_trend-boll_breakout-1m",
+        "label": "MAJ2(ema_crossover,macd_trend,boll_breakout) (1m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(ema_crossover,macd_trend,boll_breakout)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 120
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 3.2
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.17
+          },
+          "trailing": true,
+          "allow_flip": false
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-ema_crossover-macd_trend-supertrend_flip_retest-1m",
+        "label": "MAJ2(ema_crossover,macd_trend,supertrend_flip_retest) (1m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(ema_crossover,macd_trend,supertrend_flip_retest)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 120
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 3.2
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.17
+          },
+          "trailing": true,
+          "allow_flip": false
+        },
+        "metrics": {}
+      },
+      {
+        "id": "ema_crossover-1m",
+        "label": "EMA crossover (1m)",
+        "type": "base",
+        "method": "ema_crossover",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 120
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 3.2
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.17
+          },
+          "trailing": true,
+          "allow_flip": false
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-vwap_trend-ema_crossover-1m",
+        "label": "MAJ2(vwap_trend,ema_crossover) (1m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(vwap_trend,ema_crossover)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 480
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.5
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 2.0
+          },
+          "trailing": true
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-vwap_trend-ema_crossover-supertrend_flip_retest-1m",
+        "label": "MAJ2(vwap_trend,ema_crossover,supertrend_flip_retest) (1m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(vwap_trend,ema_crossover,supertrend_flip_retest)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 480
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.5
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 2.0
+          },
+          "trailing": true
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-vwap_trend-ema_crossover-fibo_pullback-1m",
+        "label": "MAJ2(vwap_trend,ema_crossover,fibo_pullback) (1m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(vwap_trend,ema_crossover,fibo_pullback)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 480
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.5
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 2.0
+          },
+          "trailing": true
+        },
+        "metrics": {}
+      }
+    ],
+    "5m": [
+      {
+        "id": "maj2-ema_crossover-macd_trend-boll_breakout-5m",
+        "label": "MAJ2(ema_crossover,macd_trend,boll_breakout) (5m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(ema_crossover,macd_trend,boll_breakout)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 30
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 3.2
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.17
+          },
+          "trailing": true,
+          "allow_flip": false
+        },
+        "metrics": {}
+      },
+      {
+        "id": "ema_crossover-5m",
+        "label": "EMA crossover (5m)",
+        "type": "base",
+        "method": "ema_crossover",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 30
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 3.2
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.17
+          },
+          "trailing": true,
+          "allow_flip": false
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-ema_crossover-macd_trend-supertrend_flip_retest-5m",
+        "label": "MAJ2(ema_crossover,macd_trend,supertrend_flip_retest) (5m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(ema_crossover,macd_trend,supertrend_flip_retest)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 480
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.5
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 2.0
+          },
+          "trailing": true
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-ema_crossover-macd_trend-5m",
+        "label": "MAJ2(ema_crossover,macd_trend) (5m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(ema_crossover,macd_trend)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 480
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.5
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 2.0
+          },
+          "trailing": true
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-vwap_trend-macd_trend-boll_breakout-5m",
+        "label": "MAJ2(vwap_trend,macd_trend,boll_breakout) (5m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(vwap_trend,macd_trend,boll_breakout)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 480
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.5
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 2.0
+          },
+          "trailing": true
+        },
+        "metrics": {}
+      }
+    ],
+    "15m": [
+      {
+        "id": "maj2-ema_crossover-macd_trend-boll_breakout-15m",
+        "label": "MAJ2(ema_crossover,macd_trend,boll_breakout) (15m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(ema_crossover,macd_trend,boll_breakout)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 20
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 3.2
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.17
+          },
+          "trailing": true,
+          "allow_flip": false
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-ema_crossover-macd_trend-15m",
+        "label": "MAJ2(ema_crossover,macd_trend) (15m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(ema_crossover,macd_trend)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 20
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 3.2
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.17
+          },
+          "trailing": true,
+          "allow_flip": false
+        },
+        "metrics": {}
+      },
+      {
+        "id": "ema_crossover-15m",
+        "label": "EMA crossover (15m)",
+        "type": "base",
+        "method": "ema_crossover",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 20
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 3.2
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.17
+          },
+          "trailing": true,
+          "allow_flip": false
+        },
+        "metrics": {}
+      },
+      {
+        "id": "macd_trend-15m",
+        "label": "MACD trend (15m)",
+        "type": "base",
+        "method": "macd_trend",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 20
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 3.2
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.17
+          },
+          "trailing": true,
+          "allow_flip": false
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-vwap_trend-ema_crossover-boll_breakout-15m",
+        "label": "MAJ2(vwap_trend,ema_crossover,boll_breakout) (15m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(vwap_trend,ema_crossover,boll_breakout)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 480
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.5
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 2.0
+          },
+          "trailing": true
+        },
+        "metrics": {}
+      },
+      {
+        "id": "maj2-ema_crossover-macd_trend-supertrend_flip_retest-15m",
+        "label": "MAJ2(ema_crossover,macd_trend,supertrend_flip_retest) (15m)",
+        "type": "combo",
+        "method": "COMBO:MAJ",
+        "combo_spec": "MAJ2(ema_crossover,macd_trend,supertrend_flip_retest)",
+        "params": {},
+        "config": {
+          "exit_priority": "tp-first",
+          "timeouts": {
+            "mode": "bars",
+            "max_hold": 480
+          },
+          "atr_stop": {
+            "enabled": true,
+            "len": 14,
+            "mult": 1.5
+          },
+          "atr_tp": {
+            "enabled": true,
+            "len": 14,
+            "mult": 2.0
+          },
+          "trailing": true
+        },
+        "metrics": {}
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+================================================================================
+🧠 ESTUDO PROFUNDO DO SELECTOR21.PY
+================================================================================
+
+📊 Código: 234,197 caracteres
+📊 Linhas: 4,833
+📊 Funções: 12
+
+🔍 Top 30 funções principais:
+   1. _parquet_list                  (linha  820) - args: path_or_dir: str
+   2. _read_table_auto               (linha  888) - args: path: str, usecols=None, parse_dates=None
+   3. keltner_channels               (linha 1085) - args: df: pd.DataFrame, ema_len: int = 20, atr_len: int 
+   4. bollinger_bands                (linha 1092) - args: series: pd.Series, length: int = 20, k: float = 2.
+   5. _fit_scaler                    (linha 2106) - args: X
+   6. _wf_month_splits               (linha 2161) - args: start, end, train_m, val_m, step_m
+   7. _append_csv                    (linha 2358) - args: path: str, df: pd.DataFrame
+   8. make_buy_hold                  (linha 2420) - args: df
+   9. _months_between                (linha 2992) - args: a, b
+  10. _candidate_for_month           (linha 3012) - args: base_dir: str, symbol: str, tf: str, y: int, m: in
+  11. main                           (linha 3112) - args: 
+  12. _load_runtime                  (linha 4331) - args: path: str
+
+================================================================================
+FASE 1: MAPEAMENTO COMPLETO DE FUNÇÕES
+================================================================================
+
+🔵 Claude mapeando funções...
+✗ Claude falhou: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CUvfLY2f3TyQCvPZ35D43'}
+
+🟢 GPT mapeando funções...
+✓ GPT completou (3169 chars)
+
+================================================================================
+FASE 2: FUNÇÕES DE OUTPUT (CRÍTICAS)
+================================================================================
+
+🔵 Claude analisando outputs...
+✗ Claude falhou: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CUvfLynTqcuUzzd7RXvGL'}
+
+🟢 GPT analisando outputs...
+✓ GPT completou (2706 chars)
+
+================================================================================
+FASE 3: CONSENSO E COMANDO CORRETO
+================================================================================
+
+🟢 GPT gerando consenso...
+✓ Consenso gerado (3316 chars)
+
+================================================================================
+💾 ESTUDO SALVO
+================================================================================
+
+  • ESTUDO_COMPLETO_SELECTOR.md
+  • LEARNING_SELECTOR_PROFUNDO.md
+
+📖 Próximo passo:
+   cat ESTUDO_COMPLETO_SELECTOR.md
+

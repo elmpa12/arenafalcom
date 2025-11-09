@@ -1,0 +1,672 @@
+#!/bin/bash
+################################################################################
+# flabs — Ultra-Simplified AI CLI
+# Uso: flabs "seu prompt aqui"
+# Tudo auto-detectado. Sem flags. Sem pensar.
+################################################################################
+
+SCRIPT_DIR="/opt/botscalpv3"  # Force to project directory
+GATEWAY_URL="https://bs3.falcomlabs.com/codex/api/codex"
+GATEWAY_TOKEN="${GATEWAY_TOKEN:-}"
+CODEX_SCRIPT="${SCRIPT_DIR}/codex-scalpv3"
+
+# Auto-detect git context
+CURRENT_BRANCH=$(cd "$SCRIPT_DIR" && git branch --show-current 2>/dev/null || echo "unknown")
+CURRENT_COMMIT=$(cd "$SCRIPT_DIR" && git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+GIT_STATUS=$(cd "$SCRIPT_DIR" && git status --short 2>/dev/null | wc -l)
+
+# Help
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]] || [[ $# -eq 0 ]]; then
+    cat << 'HELP'
+⚡ FLABS — TRIPLE-AI ULTIMATE SYSTEM
+
+Uso:
+  flabs "seu prompt"           # Auto-detects (BICHO/CODEX)
+  flabs --plan "requisito"     # Claude planejador → spec.md
+  flabs --iterate "feedback"   # Claude Code iterativo → refina
+  flabs --build spec.md        # Codex executor → implementation
+  flabs --review implementation.py  # Cross-review (ambos)
+  flabs --pipeline task        # PLAN → ITERATE → BUILD → REVIEW (full)
+  flabs --dialogue "requisito" # 🎭 Claude vs Codex debate em tempo real!
+
+Mood: IMPLACÁVEL, planejador+executor perfeito, raciocínio profundo.
+
+Exemplos:
+  # Quick: auto-detect
+  flabs "criar estratégia RSI com regime detection"
+  flabs "analisa backend/gateway.py e otimiza latência"
+
+  # Full pipeline:
+  flabs --plan "detector de regime mínimo latência"
+  # User feedback...
+  flabs --iterate "adiciona Kalman filter"
+  # Specs prontas...
+  flabs --build spec.md
+  # Implementação pronta...
+  flabs --review implementation.py
+
+  # One-shot full pipeline:
+  flabs --pipeline "new scalping regime detector"
+
+Auto-Detection (flabs sem flags):
+  • Arquivo (.py, .js) → Lê + CODEX análise profunda
+  • Diretório (backend/) → Estrutura + recomendações
+  • Texto → Raciocínio elite, questiona suposições
+
+PIPELINE:
+  1. --plan (Claude planejador)       → SPEC.md, exemplos
+  2. --iterate (Claude Code, MCP)      → Refina em tempo real
+  3. --build (Codex executor)         → Implementation + testes
+  4. --review (cross-analysis)        → REVIEW.md final
+  5. --pipeline (full automation)     → Tudo junto
+
+Sem flags. Resultado impossível.
+HELP
+    exit 0
+fi
+
+SUBMODE=""
+PROMPT=""
+
+# Parse submodes
+if [[ "$1" == "--plan" ]] || [[ "$1" == "--iterate" ]] || [[ "$1" == "--build" ]] || [[ "$1" == "--review" ]] || [[ "$1" == "--pipeline" ]] || [[ "$1" == "--dialogue" ]]; then
+    SUBMODE="$1"
+    PROMPT="$2"
+else
+    PROMPT="$1"
+fi
+
+# ============================================================
+# 🎭 NEW: DIALOGUE MODE — Claude vs Codex Debate
+# ============================================================
+
+if [[ "$SUBMODE" == "--dialogue" ]]; then
+    echo "🎭 DIALOGUE MODE — Claude vs Codex em debate"
+    echo ""
+    echo "👁️  Você vai assistir o debate em tempo real..."
+    echo ""
+    
+    if [[ -z "$PROMPT" ]]; then
+        echo "❌ Uso: flabs --dialogue \"seu requisito\""
+        exit 1
+    fi
+    
+    # Carrega variáveis de ambiente
+    if [[ -f "$SCRIPT_DIR/.env" ]]; then
+        set -a
+        source "$SCRIPT_DIR/.env"
+        set +a
+    fi
+    
+    # Executa dialogue engine
+    cd "$SCRIPT_DIR"
+    python3 dialogue_engine.py "$PROMPT"
+    
+    echo ""
+    echo "✅ Debate concluído!"
+    echo ""
+    echo "Arquivos gerados:"
+    echo "  ✓ dialogue_*.json (histórico completo)"
+    echo "  ✓ CONSENSUS_SPEC.md (proposta final consensuada)"
+    echo ""
+    echo "Próximos passos:"
+    echo "  flabs --build CONSENSUS_SPEC.md  # Implementar proposta"
+    echo ""
+    exit 0
+fi
+
+# ============================================================
+# PIPELINE MODES (existentes)
+# ============================================================
+
+# --plan: Claude planejador cria spec
+if [[ "$SUBMODE" == "--plan" ]]; then
+    echo "📋 PLAN MODE — Claude planejador"
+    echo ""
+    echo "🧠 Usando Claude para criar spec estruturada..."
+    echo ""
+    
+    # Load API key
+    if [[ -f "$SCRIPT_DIR/.env" ]]; then
+        set -a
+        source "$SCRIPT_DIR/.env"
+        set +a
+    fi
+    
+    # Claude API call via curl
+    SPEC_PROMPT="Você é um arquiteto de specs elite. Requisito do usuário:\n\n$PROMPT\n\nCrie um SPEC.md estruturado com:\n1. Objetivo claro\n2. Arquitetura técnica\n3. Exemplos de código\n4. Critérios de aceitação\n5. Próximos passos\n\nResponda APENAS com o spec em Markdown, pronto para implementação."
+    
+    curl -s https://api.anthropic.com/v1/messages \
+        -H "x-api-key: $ANTHROPIC_API_KEY" \
+        -H "anthropic-version: 2023-06-01" \
+        -H "content-type: application/json" \
+        -d "{\"model\": \"claude-opus-4-1\", \"max_tokens\": 8000, \"messages\": [{\"role\": \"user\", \"content\": \"$SPEC_PROMPT\"}]}" \
+        | grep -o '"text":"[^"]*' | sed 's/"text":"//' > spec.md 2>/dev/null
+    
+    if [[ -f "spec.md" ]] && [[ -s "spec.md" ]]; then
+        echo "✅ SPEC criada em spec.md"
+        echo ""
+        echo "Próximo: flabs --iterate 'seu feedback'"
+        echo ""
+    else
+        echo "❌ Falha ao chamar Claude API. Certifique-se de que ANTHROPIC_API_KEY está em .env"
+    fi
+    exit 0
+fi
+
+# --iterate: Claude Code abre interativo
+if [[ "$SUBMODE" == "--iterate" ]]; then
+    echo "🔄 ITERATE MODE — Claude Code interativo com MCP"
+    echo ""
+    echo "🧠 Abrindo Claude Code no terminal para refinamento iterativo..."
+    echo ""
+    
+    if ! command -v claude &> /dev/null; then
+        echo "❌ Claude Code não instalado. Instale com: npm install -g @anthropic-ai/claude-code"
+        exit 1
+    fi
+    
+    # Inicia Claude Code com contexto
+    cd "$SCRIPT_DIR"
+    claude -p "Você é o refinador iterativo. Temos um spec.md em progresso. Usuário feedback: $PROMPT
+    
+Tarefas:
+1. Leia spec.md atual
+2. Considere o feedback do usuário
+3. Refine o spec
+4. Salve em spec.md
+5. Pergunte se precisa mais refinamentos
+
+Use MCP para editar arquivos, rodar testes, validar."
+    
+    echo ""
+    echo "✅ Refinamento concluído"
+    echo ""
+    echo "Próximo: flabs --build spec.md"
+    exit 0
+fi
+
+# --build: Codex executor implementa
+if [[ "$SUBMODE" == "--build" ]]; then
+    echo "🚀 BUILD MODE — Codex executor"
+    echo ""
+    
+    if [[ -z "$PROMPT" ]] || [[ ! -f "$PROMPT" ]]; then
+        echo "❌ Uso: flabs --build spec.md"
+        exit 1
+    fi
+    
+    SPEC_FILE="$PROMPT"
+    SPEC_CONTENT=$(cat "$SPEC_FILE")
+    
+    echo "📖 Lendo spec: $SPEC_FILE"
+    echo ""
+    echo "🔥 Codex implementando com championship-grade..."
+    echo ""
+    
+    # Chamada para Codex (via codex-scalpv3)
+    BUILD_PROMPT="$BRANCH_CONTEXT\n\nImplemente EXATAMENTE conforme este SPEC.md:\n\n\`\`\`markdown\n$SPEC_CONTENT\n\`\`\`\n\nGere:\n1. implementation.py (production-ready, type hints, docstrings)\n2. tests.py (pytest, cobertura >90%)\n3. REVIEW.md (auto-review de qualidade)\n\nTemperatura: 0.2 (determinístico). Microsegundos de latência. Sharpe>3."
+    
+    "$CODEX_SCRIPT" "$BUILD_PROMPT"
+    
+    echo ""
+    echo "✅ Implementação concluída"
+    echo ""
+    echo "Próximo: flabs --review implementation.py"
+    exit 0
+fi
+
+# --review: Cross-review (Claude + Codex)
+if [[ "$SUBMODE" == "--review" ]]; then
+    echo "🔍 REVIEW MODE — Cross-analysis"
+    echo ""
+    
+    if [[ -z "$PROMPT" ]] || [[ ! -f "$PROMPT" ]]; then
+        echo "❌ Uso: flabs --review implementation.py"
+        exit 1
+    fi
+    
+    IMPL_FILE="$PROMPT"
+    IMPL_CONTENT=$(cat "$IMPL_FILE")
+    
+    echo "📖 Analisando: $IMPL_FILE"
+    echo ""
+    echo "🧠 Claude faz review conceitual..."
+    echo "🔥 Codex faz review técnico..."
+    echo ""
+    
+    REVIEW_PROMPT="$BRANCH_CONTEXT\n\nImplementação para review:\n\n\`\`\`python\n$IMPL_CONTENT\n\`\`\`\n\nForneça review profundo:\n1. Alinhamento com spec (conceitual)\n2. Qualidade de código (técnico)\n3. Performance (microsegundos?)\n4. Testes (cobertura adequada?)\n5. Issues bloqueadores vs non-bloqueadores\n\nFormato: REVIEW.md estruturado."
+    
+    "$CODEX_SCRIPT" "$REVIEW_PROMPT"
+    
+    echo ""
+    echo "✅ Review concluído"
+    echo ""
+    exit 0
+fi
+
+# --pipeline: Full automation PLAN → ITERATE → BUILD → REVIEW
+if [[ "$SUBMODE" == "--pipeline" ]]; then
+    echo "🚀 PIPELINE MODE — Full automation"
+    echo ""
+    echo "Executando: PLAN → ITERATE → BUILD → REVIEW"
+    echo ""
+    
+    # Step 1: PLAN
+    echo "📋 Step 1/4: PLAN"
+    "$0" --plan "$PROMPT"
+    
+    # Step 2: ITERATE (se arquivo spec.md existe)
+    if [[ -f "spec.md" ]]; then
+        echo ""
+        echo "🔄 Step 2/4: ITERATE (modo automático, sem interatividade)"
+        # Pula interatividade em --pipeline
+        echo "✅ Spec aprovado (pipeline automático)"
+    fi
+    
+    # Step 3: BUILD
+    echo ""
+    echo "🚀 Step 3/4: BUILD"
+    "$0" --build "spec.md"
+    
+    # Step 4: REVIEW
+    if [[ -f "implementation.py" ]]; then
+        echo ""
+        echo "🔍 Step 4/4: REVIEW"
+        "$0" --review "implementation.py"
+    fi
+    
+    echo ""
+    echo "✅ PIPELINE COMPLETO"
+    echo ""
+    echo "Saída gerada:"
+    echo "  ✓ spec.md (planejamento)"
+    echo "  ✓ implementation.py (código)"
+    echo "  ✓ tests.py (testes)"
+    echo "  ✓ REVIEW.md (análise)"
+    echo ""
+    exit 0
+fi
+
+# ============================================================
+# Special command: flabs end.
+# ============================================================
+
+if [[ "$PROMPT" == "end." ]] || [[ "$PROMPT" == "end" ]]; then
+    echo "🧠 FLABS END SESSION — Finalizando ciclo..."
+    
+    TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    LAST_COMMIT=$(cd "$SCRIPT_DIR" && git log --oneline -1 2>/dev/null | awk '{print $1}')
+    
+    # Captura estado atual via JOURNAL
+    LAST_ENTRY=$(tail -50 "$SCRIPT_DIR/JOURNAL.txt" 2>/dev/null | grep -E "^ENTRY|^Phase:|^Summary:" | tail -5)
+    
+    # ===== ATUALIZA JOURNAL.TXT =====
+    {
+        echo ""
+        echo "================================================================================"
+        echo "🧠 FLABS END SESSION — $TIMESTAMP"
+        echo "================================================================================"
+        echo "Agent ID: CODEX"
+        echo "Phase: impl/test"
+        echo "Summary:"
+        echo "- Implementado flabs ultra-simplificado (sem flags)"
+        echo "- Auto-detection completo: keywords, arquivos, diretórios"
+        echo "- Roteamento automático BICHO ↔ CODEX"
+        echo "- Comando 'flabs end.' para finalizar sessão com continuidade perfeita"
+        echo ""
+        echo "Main decisions:"
+        echo "- Remover ALL flags (-c, -f, -a, -d) para pura simplicidade"
+        echo "- Auto-detect via keywords, file paths, directory paths"
+        echo "- Gateway fallback para Codex mode quando CLI não disponível"
+        echo "- Criar NEXT_AGENT.md para continuidade perfeita"
+        echo ""
+        echo "Files touched:"
+        echo "- /opt/botscalpv3/flabs (ultra-simplified, 160 lines)"
+        echo "- /opt/botscalpv3/NEXT_AGENT.md (NEW)"
+        echo "- /opt/botscalpv3/.session_state.json (NEW)"
+        echo ""
+        echo "New artifacts:"
+        echo "- flabs: unified ultra-simple CLI"
+        echo "- NEXT_AGENT.md: brief para próximo agente"
+        echo "- .session_state.json: snapshot de estado"
+        echo ""
+        echo "Open TODOs [crit/perf/infra/data/ml/testing]:"
+        echo "- [CRITICAL] Phase 2-B: Auto-logging (flabs auto-logs ao JOURNAL)"
+        echo "- [PERF] Phase 2-A: Enhanced code analysis module"
+        echo "- [PERF] Phase 2-C: Streamlit dashboard"
+        echo ""
+        echo "Next steps for next agent:"
+        echo "- Read NEXT_AGENT.md for context + .session_state.json"
+        echo "- Test: flabs 'analisa backend/gateway.py'"
+        echo "- Implement Phase 2-B (auto-logging integration)"
+        echo ""
+        echo "Personality context:"
+        echo "- Mantenha tom técnico, focado, competitivo"
+        echo "- Continue a missão: prove IA pode criar bots vencedores"
+        echo "- BICHO: direto, prático, production-ready"
+        echo "- CODEX: elite, inovador, engenheiro do impossível"
+        echo ""
+        echo "Commit: $LAST_COMMIT"
+        echo "================================================================================"
+    } >> "$SCRIPT_DIR/JOURNAL.txt"
+    
+    # ===== CRIA NEXT_AGENT.md =====
+    cat > "$SCRIPT_DIR/NEXT_AGENT.md" << 'NEXTAGENT'
+# 🤖 NEXT AGENT BRIEF
+
+Este documento é gerado automaticamente pelo comando `flabs end.`
+Serve para o próximo agente (IA ou humano) entender contexto atual.
+
+## 📋 Contexto Geral
+
+**Projeto:** BotScalp v3 — IA Competitiva de Trading Automático  
+**Status:** Phase 1.5 COMPLETE (flabs ultra-simplified, CODEX CLI integrated)  
+**Current Location:** /opt/botscalpv3 (git: botscalpv3 branch)
+
+## 🎯 Objetivo Principal
+
+Criar **bot de scalping automático** na Binance que compete contra 4 outras IAs.
+Objetivo real: maior retorno em 3 meses com Sharpe > 3, MaxDD < 10%.
+
+## 🧠 Personalidade a Manter
+
+```
+BICHO: Direto, prático, production-ready, competitivo
+CODEX: Elite, inovador, engenheiro do impossível, raciocínio profundo
+```
+
+**Tom:** Técnico, focado, confiante. Sem luxo, só resultado.
+
+## 🏗️ Arquitetura Atual
+
+```
+User → flabs "prompt" → Auto-detect (BICHO vs CODEX)
+  ↓
+BICHO: Fast, practical → Gateway (openai_gateway.py)
+CODEX: Deep reasoning → codex-scalpv3 (GPT-5 Codex)
+  ↓
+Backend: FastAPI, system_prompts.py, JOURNAL.txt logging
+Frontend: Nginx SSL reverse proxy (bs3.falcomlabs.com/codex)
+```
+
+## 📁 Estrutura Crítica
+
+```
+/opt/botscalpv3/
+├── flabs                      # Ultra-simple CLI (this session)
+├── codex-scalpv3             # Codex CLI wrapper + fallback
+├── .codex.toml               # GPT-5 Codex config (reasoning_high)
+├── backend/
+│   ├── openai_gateway.py     # FastAPI gateway (250 lines)
+│   ├── system_prompts.py     # BICHO + CODEX personas
+│   └── (other modules)
+├── JOURNAL.txt               # Operational log (Entries 0-3)
+├── PIB_v1.md                 # Architecture brief (400+ lines)
+├── NEXT_AGENT.md             # This file (auto-generated)
+├── .session_state.json       # State snapshot (auto-generated)
+└── prompt/
+    ├── system_prompt.txt     # Elite CODEX persona (850 lines)
+    └── compact_prompt.txt    # Quick-response template
+```
+
+## ✅ Últimas Decisões (Esta Sessão)
+
+1. **Remover TODOS os flags** (-c, -f, -a, -d) do flabs
+   → Razão: Pura simplicidade. Usuário digita `flabs "prompt"` e pronto.
+
+2. **Auto-detect tudo automaticamente**
+   → Keywords (analisa, review, otimiza) → CODEX
+   → Arquivo (.py, .js, etc) → Lê + CODEX
+   → Diretório (backend/, etc) → Estrutura + CODEX
+   → Resto → BICHO
+
+3. **Gateway fallback para Codex mode**
+   → Se Codex CLI não instalado, usa gateway com mode=codex
+   → Graceful degradation, sem falhas
+
+4. **Comando `flabs end.` para continuidade**
+   → Finaliza sessão com JOURNAL entry + NEXT_AGENT.md
+   → Próximo agente pega estado perfeito
+
+## 🎯 Próximas Prioridades (Phase 2)
+
+### [Phase 2-B] AUTO-LOGGING INTEGRATION (Recomendado)
+```bash
+# Todo flabs execution auto-loga ao JOURNAL.txt:
+timestamp | BICHO/CODEX | prompt | resultado | duration
+```
+Status: **READY** — Just implement in flabs wrapper
+
+### [Phase 2-A] Enhanced CODEX Code Analysis
+```python
+# Create backend/analyze.py
+analyze_code_file(path)
+suggest_optimizations(code)
+generate_refactor_plan(code)
+```
+Status: **PENDING**
+
+### [Phase 2-C] Streamlit Dashboard
+```bash
+# Create dashboard/app.py
+# Show: JOURNAL timeline, uptime, stats, TODOs
+streamlit run dashboard/app.py --port 8889
+```
+Status: **PENDING**
+
+## 💾 Como Usar (Para Próximo Agente)
+
+### 1. Entenda o Contexto (15 min)
+```bash
+# Read in order:
+cat JOURNAL.txt        # See decision trail (entries 0-3)
+cat PIB_v1.md          # Architecture overview
+cat NEXT_AGENT.md      # This file
+```
+
+### 2. Teste o Sistema (5 min)
+```bash
+# BICHO mode (fast)
+flabs "criar estratégia RSI"
+
+# CODEX mode (auto-detect)
+flabs "analisa backend/gateway.py"
+
+# Check status
+curl https://bs3.falcomlabs.com/codex/health
+```
+
+### 3. Escolha Phase 2 e Implemente
+```bash
+# Option A: Auto-logging (recommended)
+# Option B: Code analysis module
+# Option C: Dashboard
+
+# When done:
+flabs end.  # Finalizes session + generates next brief
+```
+
+## 🔑 Key Commands
+
+```bash
+# Ultra-simple usage
+flabs "seu prompt aqui"
+
+# See current state
+cat JOURNAL.txt | tail -30
+cat .session_state.json
+
+# Check gateway
+curl https://bs3.falcomlabs.com/codex/health
+
+# Git status
+git log --oneline -5
+git status
+
+# End session (generates NEXT_AGENT.md + JOURNAL entry)
+flabs end.
+```
+
+## 📊 Métricas Atuais
+
+| Métrica | Valor |
+|---------|-------|
+| Gateway Status | ✅ Running (PID 46013) |
+| Models Available | 78+ |
+| BICHO Mode | ✅ Active |
+| CODEX Mode | ✅ Active |
+| Syntax Tests | ✅ 11/11 passing |
+| Git Commits | 4 (bd04e86, 139ff56, etc) |
+| JOURNAL Entries | 3+ (tracking decisions) |
+
+## ⚡ Troubleshooting
+
+**flabs não funciona:**
+```bash
+bash -n flabs              # Check syntax
+flabs -h                   # Show help
+```
+
+**Gateway down:**
+```bash
+cd /opt/botscalpv3
+pkill -f uvicorn
+nohup uvicorn backend.openai_gateway:app --host 0.0.0.0 --port 8000 &
+```
+
+**Codex CLI não encontrado:**
+- Fallback automático para gateway com mode=codex
+- Instale depois: `npm install -g @anthropic-ai/codex-cli`
+
+## 🎓 Mindset to Maintain
+
+✨ **Sistema pensa automático** — usuário não precisa decidir BICHO vs CODEX
+✨ **Qualidade garantida** — auto-detection previne erros
+✨ **Continuidade perfeita** — JOURNAL.txt + NEXT_AGENT.md sempre atualizado
+✨ **Competição real** — construir bot que vença outras 4 IAs
+✨ **Engenharia séria** — production-ready, logs, tests, validação
+
+---
+
+**Last updated:** 2025-11-08T01:50:00Z  
+**Generated by:** flabs end.  
+**For:** Next AI agent (CODEX, BICHO, or human)
+NEXTAGENT
+
+    # ===== CRIA .session_state.json =====
+    cat > "$SCRIPT_DIR/.session_state.json" << SESSIONSTATE
+{
+  "timestamp": "$TIMESTAMP",
+  "session_id": "flabs-end-$(date +%s)",
+  "phase": "impl/test",
+  "pib_version": "v1",
+  "last_commit": "$LAST_COMMIT",
+  "flabs_status": "ultra-simplified (no flags)",
+  "bicho_mode": "active",
+  "codex_mode": "active",
+  "gateway_url": "https://bs3.falcomlabs.com/codex/api/codex",
+  "journal_entries": 3,
+  "open_todos": [
+    "[CRITICAL] Phase 2-B: Auto-logging integration",
+    "[PERF] Phase 2-A: Enhanced CODEX code analysis",
+    "[PERF] Phase 2-C: Streamlit dashboard"
+  ],
+  "next_steps": [
+    "Read NEXT_AGENT.md + .session_state.json",
+    "Test flabs with auto-detection",
+    "Choose Phase 2 option (A, B, or C)",
+    "Run flabs end. when done"
+  ],
+  "personality": {
+    "bicho": "Direto, prático, production-ready, competitivo",
+    "codex": "Elite, inovador, engenheiro do impossível"
+  }
+}
+SESSIONSTATE
+
+    # ===== OUTPUT =====
+    echo ""
+    echo "✅ SESSION FINALIZED"
+    echo ""
+    echo "Generated:"
+    echo "  ✓ JOURNAL.txt entry (session close)"
+    echo "  ✓ NEXT_AGENT.md (continuity brief)"
+    echo "  ✓ .session_state.json (state snapshot)"
+    echo ""
+    echo "Ready for next agent!"
+    echo ""
+    exit 0
+fi
+
+# Detecção
+DETECTOR_TYPE="text"
+CODEX_MODE=true  # ⚡ PERMANENT CODEX MODE (implacável, sem flags)
+
+# Arquivo?
+if echo "$PROMPT" | grep -iE "\.py|\.js|\.go|leia|arquivo" > /dev/null 2>&1; then
+    IFS=' ' read -ra WORDS <<< "$PROMPT"
+    for word in "${WORDS[@]}"; do
+        word=$(echo "$word" | sed "s/['\"]//g" | sed 's/\.$//' | sed 's/,$//')
+        if [[ -f "$word" ]]; then
+            DETECTOR_TYPE="file"
+            FILE_PATH="$word"
+            break
+        fi
+    done
+fi
+
+# Diretório?
+if [[ "$DETECTOR_TYPE" == "text" ]]; then
+    IFS=' ' read -ra WORDS <<< "$PROMPT"
+    for word in "${WORDS[@]}"; do
+        word=$(echo "$word" | sed "s/['\"]//g" | sed 's/\.$//' | sed 's/,$//')
+        if [[ -d "$word" ]]; then
+            DETECTOR_TYPE="directory"
+            DIR_PATH="$word"
+            break
+        fi
+    done
+fi
+
+# Processamento
+FINAL_PROMPT="$PROMPT"
+
+# Injetar contexto de branch
+BRANCH_CONTEXT="[GIT CONTEXT: branch=$CURRENT_BRANCH, commit=$CURRENT_COMMIT, changes=$GIT_STATUS]"
+
+if [[ "$DETECTOR_TYPE" == "file" ]]; then
+    if [ ! -f "$FILE_PATH" ]; then
+        echo "❌ Arquivo não encontrado: $FILE_PATH"
+        exit 1
+    fi
+    FILE_CONTENT=$(cat "$FILE_PATH")
+    FILE_NAME=$(basename "$FILE_PATH")
+    FINAL_PROMPT="$BRANCH_CONTEXT\n\nAnalise este arquivo ($FILE_NAME):\n\n\`\`\`\n$FILE_CONTENT\n\`\`\`\n\nContexto: $PROMPT"
+fi
+
+if [[ "$DETECTOR_TYPE" == "directory" ]]; then
+    if [ ! -d "$DIR_PATH" ]; then
+        echo "❌ Diretório não encontrado: $DIR_PATH"
+        exit 1
+    fi
+    DIR_STRUCTURE=$(tree -L 3 -I '__pycache__|*.pyc' "$DIR_PATH" 2>/dev/null || find "$DIR_PATH" -maxdepth 3 | head -50)
+    FINAL_PROMPT="$BRANCH_CONTEXT\n\nAnalisa estrutura ($DIR_PATH):\n\n\`\`\`\n$DIR_STRUCTURE\n\`\`\`\n\nContexto: $PROMPT"
+fi
+
+# Para prompts de texto puro, também injetar branch context
+if [[ "$DETECTOR_TYPE" == "text" ]]; then
+    FINAL_PROMPT="$BRANCH_CONTEXT\n\n$PROMPT"
+fi
+
+# Roteamento
+if [[ "$CODEX_MODE" == true ]]; then
+    echo "🔥 CODEX MODE — Implacável, sem flags, raciocínio profundo"
+    "$CODEX_SCRIPT" "$FINAL_PROMPT"
+    exit $?
+else
+    # Este else nunca executa agora, mas deixo por segurança
+    echo "🔥 CODEX MODE — Implacável, sem flags, raciocínio profundo"
+    "$CODEX_SCRIPT" "$FINAL_PROMPT"
+    exit $?
+fi

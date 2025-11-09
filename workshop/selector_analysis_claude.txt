@@ -1,0 +1,168 @@
+Aqui estão as análises e sugestões de parâmetros ideais para um backtest robusto usando o selector21.py:
+
+CATEGORIA: DATA LOADING
+PARÂMETROS:
+  --data_dir <diretório>  # Diretório raiz contendo os dados (CSV/Parquet)
+  --data_glob 'BTCUSDT_*_1m.parquet;BTCUSDT_*_5m.parquet;BTCUSDT_*_15m.parquet'  # Carrega dados de vários intervalos
+  --symbol BTCUSDT  # Par a ser analisado
+  --interval 1m,5m,15m  # Intervalos a serem usados no backtest
+  --start 2020-01-01  # Data inicial do backtest
+  --end 2022-12-31  # Data final do backtest
+  --smoke_months 3  # Carrega apenas os 3 primeiros meses de dados para testes rápidos
+  --max_rows_loader 10000000  # Limita o número de linhas carregadas por intervalo (evita exceder a memória)
+
+Justificativa:
+- Usar múltiplos intervalos (1m, 5m, 15m) fornece sinais em diferentes escalas de tempo, aumentando a robustez.
+- Iniciar o backtest em 2020-01-01 e terminá-lo em 2022-12-31 garante uma amostra de dados diversificada, incluindo períodos de alta e baixa volatilidade.
+- Carregar apenas os 3 primeiros meses de dados inicialmente permite testes rápidos durante o desenvolvimento.
+- Limitar o número de linhas carregadas por intervalo evita que o programa exceda a memória disponível.
+
+CATEGORIA: EXECUTION RULES
+PARÂMETROS:
+  --exec_rules 'rsi,macd,atr,ema'  # Usar um conjunto de regras básicas como ponto de partida
+  --methods 'rsi,macd,atr,ema,bb,stoch,roc,mom,adx,vwap,ichimoku,obv,cvd,imbal'  # Habilitar todos os métodos disponíveis
+  --run_base  # Executar a estratégia base (sem combinações)
+  --run_combos  # Executar a estratégia de combinação de sinais
+
+Justificativa:
+- Iniciar com um conjunto de regras básicas (RSI, MACD, ATR, EMA) fornece uma boa linha de base para o backtest.
+- Habilitar todos os 14 métodos disponíveis maximiza o potencial de descoberta de sinais rentáveis.
+- Executar a estratégia base e a de combinação de sinais permite comparar o desempenho e encontrar a abordagem mais eficaz.
+
+CATEGORIA: COMBOS
+PARÂMETROS:
+  --combo_ops 'AND,MAJ,SEQ'  # Considerar todas as operações de combinação
+  --combo_cap 3  # Limitar a 3 o número máximo de sinais em uma combinação
+  --combo_window 3  # Usar uma janela de 3 períodos para combinar sinais
+  --combo_min_votes 2  # Exigir que pelo menos 2 sinais estejam presentes para gerar um sinal de combinação
+
+Justificativa:
+- Habilitar as 3 operações de combinação (AND, MAJ, SEQ) maximiza as possibilidades de descobrir sinais eficazes.
+- Limitar a 3 o número máximo de sinais em uma combinação evita combinações complexas demais, mantendo a interpretabilidade.
+- Uma janela de 3 períodos captura a interação entre sinais recentes, sem ser excessivamente longa.
+- Exigir pelo menos 2 sinais presentes antes de gerar um sinal de combinação reduz o risco de sinais espúrios.
+
+CATEGORIA: RISK MANAGEMENT
+PARÂMETROS:
+  --contracts 1  # Usar 1 contrato por transação
+  --contract_value 100  # Valor do contrato de 100 USDT
+  --fee_perc 0.04  # Taxa de corretagem de 0,04%
+  --slippage 0.02  # Slippage de 2% por transação
+  --tick_size 0.1  # Tamanho do tick de 0,1 USDT
+  --max_hold '120,60,30'  # Limitar a 120/60/30 períodos de hold por intervalo
+
+Justificativa:
+- Usar 1 contrato por transação é uma abordagem conservadora que limita o risco por operação.
+- Um contrato de 100 USDT é um tamanho de posição razoável para a maioria dos traders.
+- As taxas de corretagem e slippage refletem as condições de mercado típicas para pares de criptomoedas.
+- O tamanho do tick de 0,1 USDT é compatível com a maioria dos pares de criptomoedas.
+- Limitar o tempo máximo de hold por intervalo evita que posições fiquem abertas por períodos excessivos, reduzindo o risco.
+
+CATEGORIA: STOPS & TAKE-PROFITS
+PARÂMETROS:
+  --use_atr_stop  # Usar stop-loss baseado no ATR
+  --atr_stop_len '14,14,14'  # Usar janela de 14 períodos para cálculo do ATR
+  --atr_stop_mult '3,3,3'  # Multiplicador de 3x o ATR para o stop-loss
+  --use_atr_tp  # Usar take-profit baseado no ATR
+  --atr_tp_len '14,14,14'  # Usar janela de 14 períodos para cálculo do ATR
+  --atr_tp_mult '2,2,2'  # Multiplicador de 2x o ATR para o take-profit
+  --hard_stop_usd '200,500,680'  # Stop-loss fixo de $200/$500/$680 por intervalo
+  --hard_tp_usd '3000,3000,3000'  # Take-profit fixo de $3000 por intervalo
+
+Justificativa:
+- O uso de stop-loss e take-profit baseados no ATR ajusta automaticamente os níveis de risco com base na volatilidade do mercado.
+- Uma janela de 14 períodos para o cálculo do ATR é uma configuração padrão amplamente utilizada.
+- Multiplicadores de 3x e 2x o ATR para stop-loss e take-profit, respectivamente, são valores comumente empregados.
+- Os stop-loss e take-profit fixos adicionam uma camada extra de proteção contra movimentações extremas do mercado.
+
+CATEGORIA: WALK-FORWARD
+PARÂMETROS:
+  --walkforward  # Habilitar a abordagem de walk-forward
+  --wf_train_months 12  # Usar 12 meses de dados para treinamento
+  --wf_val_months 3  # Usar 3 meses de dados para validação
+  --wf_step_months 3  # Avançar a janela de walk-forward em 3 meses
+  --wf_grid_mode 'full'  # Usar a configuração de grid 'full' para a otimização de parâmetros
+  --wf_top_n 5  # Selecionar os 5 melhores modelos para cada janela de walk-forward
+
+Justificativa:
+- A abordagem de walk-forward é essencial para avaliar a robustez da estratégia, evitando overfitting.
+- 12 meses de dados para treinamento fornecem um histórico suficiente para a estratégia aprender padrões eficazes.
+- 3 meses de dados para validação são um período adequado para avaliar o desempenho fora da amostra.
+- Avançar a janela em 3 meses equilibra a necessidade de dados recentes e a capacidade de generalização.
+- A configuração de grid 'full' maximiza a capacidade de descobrir os melhores parâmetros em cada janela.
+- Selecionar os 5 melhores modelos por janela aumenta a probabilidade de identificar uma estratégia robusta.
+
+CATEGORIA: MACHINE LEARNING
+PARÂMETROS:
+  --run_ml  # Habilitar o pipeline de machine learning
+  --ml_model_kind 'auto'  # Permitir que o modelo seja selecionado automaticamente
+  --ml_horizon 1  # Prever o retorno do próximo período
+  --ml_ret_thr 0.005  # Definir o alvo binário com base em um retorno de 0,5%
+  --ml_lags '1,2,3,4,5'  # Usar os 5 últimos períodos como features
+  --ml_use_agg  # Incluir os sinais agregados como features
+  --ml_use_depth  # Incluir os dados de book de ordens como features
+  --ml_opt_thr  # Otimizar o threshold de decisão durante o treinamento
+  --ml_thr_grid '0.50,0.70,0.02'  # Procurar o melhor threshold no intervalo de 0,50 a 0,70 com passo de 0,02
+  --ml_add_base_feats  # Adicionar os sinais das regras base como features
+  --ml_add_combo_feats  # Adicionar os sinais de combinação como features
+  --ml_combo_top_n 5  # Usar os 5 melhores sinais de combinação como features
+  --ml_combo_ops 'AND,MAJ'  # Considerar as operações AND e MAJ para os sinais de combinação
+  --ml_save_dir <diretório>  # Salvar os modelos e escaladores treinados por janela
+  --ml_calibrate 'platt'  # Calibrar as probabilidades de saída do modelo usando o método de Platt
+
+Justificativa:
+- Habilitar o pipeline de machine learning permite aproveitar o potencial de aprendizado de máquina para melhorar o desempenho da estratégia.
+- A seleção automática do modelo garante que o melhor algoritmo seja usado em cada janela de walk-forward.
+- Prever o retorno do próximo período é uma abordagem padrão para a maioria dos problemas de classificação de sinais.
+- Um threshold de retorno de 0,5% define um alvo binário razoável para a estratégia.
+- Usar os 5 últimos períodos como features captura a dinâmica de curto prazo do mercado.
+- Incluir os sinais agregados e os dados de book de ordens como features adiciona informações valiosas para o modelo.
+- Otimizar o threshold de decisão durante o treinamento ajusta o modelo à distribuição de retornos de cada janela.
+- Adicionar os sinais das regras base e de combinação como features permite que o modelo aprenda a partir dos sinais existentes.
+- Usar os 5 melhores sinais de combinação como features captura a interação entre os indicadores.
+- Salvar os modelos e escaladores treinados por janela permite a reutilização desses artefatos em implementações futuras.
+- A calibração de probabilidades usando o método de Platt melhora a interpretabilidade das saídas do modelo.
+
+CATEGORIA: FILTERS
+PARÂMETROS:
+  --atr_z_min 1.0  # Habilitar sinais apenas quando o z-score do ATR for maior ou igual a 1,0
+  --vhf_min 2.0  # Habilitar sinais apenas quando o Vertical Horizontal Filter for maior ou igual a 2,0
+  --cvd_slope_min 0.1  # Habilitar sinais apenas quando a inclinação do Cumulative Volume Delta for maior ou igual a 0,1
+  --imbalance_min 0.1  # Habilitar sinais apenas quando a Imbalance for maior ou igual a 0,1
+
+Justificativa:
+- O filtro do z-score do ATR evita gerar sinais em períodos de baixa volatilidade, quando o risco é maior.
+- O filtro do Vertical Horizontal Filter identifica regimes de tendência mais fortes, favorecendo sinais em condições de mercado mais propícias.
+- O filtro da inclinação do Cumulative Volume Delta identifica movimentações sustentadas de volume, reduzindo sinais em condições de baixa liquidez.
+- O filtro da Imbalance identifica desequilíbrios significativos entre oferta e demanda, reduzindo sinais em condições de mercado menos favoráveis.
+
+CATEGORIA: PERFORMANCE
+PARÂMETROS:
+  --n_jobs 4  # Usar 4 processos/threads para paralelizar a execução
+  --par_backend 'process'  # Usar o backend de processamento paralelo
+  --lowmem  # Ativar rotas de baixo uso de memória (downcasting, streaming, sequential)
+  --mem_lookback_bars 10000  # Limitar a 10.000 barras o histórico usado por cada método (walk-forward)
+
+Justificativa:
+- O uso de 4 processos/threads paralelos acelera significativamente o backtest, especialmente em ambientes com múltiplos núcleos.
+- O backend de processamento paralelo é mais eficiente do que o backend de threading.
+- As rotas de baixo uso de memória reduzem o consumo de RAM, permitindo o processamento de conjuntos de dados maiores.
+- Limitar o histórico usado por cada método no walk-forward a 10.000 barras reduz o uso de memória, mantendo um tamanho de amostra adequado.
+
+CATEGORIA: OUTPUT
+PARÂMETROS:
+  --min_trades 30  # Exigir um mínimo de 30 trades por estratégia
+  --min_hit 0.5  # Exigir um mínimo de 50% de acerto por estratégia
+  --min_pnl 0.1  # Exigir um lucro mínimo de 10% por estratégia
+  --min_sharpe 0.5  # Exigir um mínimo de Sharpe ratio de 0,5 por estratégia
+  --max_dd 0.3  # Limitar o máximo drawdown em 30% por estratégia
+  --out_root <diretório>  # Usar um diretório raiz centralizado para todos os arquivos de saída
+  --out_wf_ml <diretório>  # Salvar os resultados do pipeline de machine learning no walk-forward
+  --ml_save_dir <diretório>  # Salvar os modelos e escaladores treinados por janela no walk-forward
+  --print_top10  # Imprimir os 10 melhores resultados de cada tipo de saída
+
+Justificativa:
+- Os filtros de desempenho (mínimo de trades, hit rate, lucro, Sharpe ratio e máximo drawdown) garantem que apenas estratégias robustas sejam consideradas.
+- O uso de um diretório raiz centralizado facilita a organização e a localização dos arquivos de saída.
+- Salvar os resultados do pipeline de machine learning e os modelos/escaladores treinados por janela permite a reutilização desses artefatos em implementações futuras.
+- Imprimir os 10 melhores resultados de cada tipo de saída fornece uma visão geral rápida do desempenho das estratégias.

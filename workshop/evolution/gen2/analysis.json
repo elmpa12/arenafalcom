@@ -1,0 +1,228 @@
+{
+  "best_method": "orr_reversal",
+  "best_period": "Semana 4 (Jan)",
+  "top_10_pnl": [
+    {
+      "test_name": "rapid_feb_w2_macd",
+      "method": "macd_trend",
+      "total_pnl": 259398.46742187496,
+      "sharpe": 0.9542597576664072,
+      "hit": 0.3953488372093023,
+      "n_trades": 86
+    },
+    {
+      "test_name": "rapid_w4_ema",
+      "method": "ema_crossover",
+      "total_pnl": 160128.050546875,
+      "sharpe": 0.8121324530274765,
+      "hit": 0.4166666666666667,
+      "n_trades": 12
+    },
+    {
+      "test_name": "rapid_w4_vwap",
+      "method": "vwap_trend",
+      "total_pnl": 52362.81890625,
+      "sharpe": 0.2621564432466962,
+      "hit": 0.3809523809523809,
+      "n_trades": 42
+    },
+    {
+      "test_name": "rapid_feb_w2_vwap",
+      "method": "vwap_trend",
+      "total_pnl": 48443.876953125015,
+      "sharpe": 0.1664791474868484,
+      "hit": 0.3161290322580645,
+      "n_trades": 155
+    },
+    {
+      "test_name": "rapid_w4_macd",
+      "method": "macd_trend",
+      "total_pnl": 7415.804062500014,
+      "sharpe": 0.0512985289601133,
+      "hit": 0.5,
+      "n_trades": 24
+    },
+    {
+      "test_name": "rapid_mar_w2_rsi",
+      "method": "rsi_reversion",
+      "total_pnl": -30962.489062499983,
+      "sharpe": -0.1647829822605661,
+      "hit": 0.46,
+      "n_trades": 50
+    },
+    {
+      "test_name": "rapid_w4_orr",
+      "method": "orr_reversal",
+      "total_pnl": -46429.368593750005,
+      "sharpe": -1.0564908903980217,
+      "hit": 0.5,
+      "n_trades": 28
+    },
+    {
+      "test_name": "rapid_w3_trend",
+      "method": "trend_breakout",
+      "total_pnl": -65073.756640625,
+      "sharpe": -1.2506870928474634,
+      "hit": 0.2884615384615384,
+      "n_trades": 52
+    },
+    {
+      "test_name": "rapid_w3_rsi",
+      "method": "rsi_reversion",
+      "total_pnl": -81297.39460937501,
+      "sharpe": -1.0268025675201131,
+      "hit": 0.3636363636363636,
+      "n_trades": 66
+    },
+    {
+      "test_name": "rapid_w4_emapull",
+      "method": "ema_pullback",
+      "total_pnl": -90917.61703125,
+      "sharpe": -1.432144250145076,
+      "hit": 0.3958333333333333,
+      "n_trades": 48
+    }
+  ],
+  "top_10_sharpe": [
+    {
+      "test_name": "rapid_feb_w2_macd",
+      "method": "macd_trend",
+      "sharpe": 0.9542597576664072,
+      "total_pnl": 259398.46742187496,
+      "hit": 0.3953488372093023,
+      "n_trades": 86
+    },
+    {
+      "test_name": "rapid_w4_ema",
+      "method": "ema_crossover",
+      "sharpe": 0.8121324530274765,
+      "total_pnl": 160128.050546875,
+      "hit": 0.4166666666666667,
+      "n_trades": 12
+    },
+    {
+      "test_name": "rapid_w4_vwap",
+      "method": "vwap_trend",
+      "sharpe": 0.2621564432466962,
+      "total_pnl": 52362.81890625,
+      "hit": 0.3809523809523809,
+      "n_trades": 42
+    },
+    {
+      "test_name": "rapid_feb_w2_vwap",
+      "method": "vwap_trend",
+      "sharpe": 0.1664791474868484,
+      "total_pnl": 48443.876953125015,
+      "hit": 0.3161290322580645,
+      "n_trades": 155
+    },
+    {
+      "test_name": "rapid_w4_macd",
+      "method": "macd_trend",
+      "sharpe": 0.0512985289601133,
+      "total_pnl": 7415.804062500014,
+      "hit": 0.5,
+      "n_trades": 24
+    },
+    {
+      "test_name": "rapid_mar_w2_rsi",
+      "method": "rsi_reversion",
+      "sharpe": -0.1647829822605661,
+      "total_pnl": -30962.489062499983,
+      "hit": 0.46,
+      "n_trades": 50
+    },
+    {
+      "test_name": "rapid_mar_w3_vwap",
+      "method": "vwap_trend",
+      "sharpe": -0.5695109078953045,
+      "total_pnl": -276225.7021093751,
+      "hit": 0.325,
+      "n_trades": 40
+    },
+    {
+      "test_name": "rapid_w3_macd",
+      "method": "macd_trend",
+      "sharpe": -0.5751197172572405,
+      "total_pnl": -97358.64195312509,
+      "hit": 0.3333333333333333,
+      "n_trades": 81
+    },
+    {
+      "test_name": "rapid_mar_w2_macd",
+      "method": "macd_trend",
+      "sharpe": -0.6314339250469211,
+      "total_pnl": -259933.05609375008,
+      "hit": 0.3012048192771084,
+      "n_trades": 83
+    },
+    {
+      "test_name": "rapid_w3_rsi",
+      "method": "rsi_reversion",
+      "sharpe": -1.0268025675201131,
+      "total_pnl": -81297.39460937501,
+      "hit": 0.3636363636363636,
+      "n_trades": 66
+    }
+  ],
+  "method_stats": {
+    "total_pnl": {
+      "boll_breakout": -415348.63,
+      "donchian_breakout": -139817.26,
+      "ema_crossover": -300528.41,
+      "ema_pullback": -90917.62,
+      "keltner_breakout": -942442.57,
+      "macd_trend": -224498.64,
+      "orb_breakout": -196123.01,
+      "orr_reversal": -46429.37,
+      "rsi_reversion": -271492.11,
+      "trend_breakout": -572929.89,
+      "vwap_trend": -350279.32
+    },
+    "sharpe": {
+      "boll_breakout": -3.35,
+      "donchian_breakout": -2.2,
+      "ema_crossover": -0.89,
+      "ema_pullback": -1.43,
+      "keltner_breakout": -4.55,
+      "macd_trend": -0.91,
+      "orb_breakout": -1.6,
+      "orr_reversal": -1.06,
+      "rsi_reversion": -2.57,
+      "trend_breakout": -6.39,
+      "vwap_trend": -1.49
+    },
+    "hit": {
+      "boll_breakout": 0.35,
+      "donchian_breakout": 0.27,
+      "ema_crossover": 0.31,
+      "ema_pullback": 0.4,
+      "keltner_breakout": 0.22,
+      "macd_trend": 0.36,
+      "orb_breakout": 0.37,
+      "orr_reversal": 0.5,
+      "rsi_reversion": 0.37,
+      "trend_breakout": 0.26,
+      "vwap_trend": 0.32
+    },
+    "n_trades": {
+      "boll_breakout": 149.0,
+      "donchian_breakout": 67.0,
+      "ema_crossover": 146.0,
+      "ema_pullback": 48.0,
+      "keltner_breakout": 411.0,
+      "macd_trend": 135.4,
+      "orb_breakout": 123.0,
+      "orr_reversal": 28.0,
+      "rsi_reversion": 210.4,
+      "trend_breakout": 301.8,
+      "vwap_trend": 226.0
+    }
+  },
+  "week_performance": {
+    "Semana 4 (Jan)": 16511.937578125002,
+    "Semana 3 (Jan)": -141729.0716071429,
+    "Semana 1 (Jan)": -679023.466467014,
+    "Semana 2 (Jan)": -352611.8017708334
+  }
+}

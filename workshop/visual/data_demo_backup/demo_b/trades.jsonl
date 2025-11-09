@@ -1,0 +1,2 @@
+{"entry_t": "2025-02-01T00:15:00Z", "entry_px": 3218, "exit_t": "2025-02-01T00:45:00Z", "exit_px": 3212, "side": "LONG", "size": 5, "pnl": -30.0, "pnl_abs": 30.0, "sl": 3160, "tp": 3300, "pipeline": "ensemble-ml"}
+{"entry_t": "2025-02-01T01:00:00Z", "entry_px": 3198, "exit_t": "2025-02-01T01:30:00Z", "exit_px": 3182, "side": "SHORT", "size": 4, "pnl": 64.0, "pnl_abs": 64.0, "sl": 3240, "tp": 3100, "pipeline": "dl-hibrido"}

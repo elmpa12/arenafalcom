@@ -1,0 +1,380 @@
+{
+  "meta": {
+    "generated_at": "2025-10-01T07:35:06.319570+00:00",
+    "symbol": "BTCUSDT",
+    "range_used": {
+      "start": "2022-01-01 00:00:00+00:00",
+      "end": "2025-09-11 00:00:00+00:00"
+    },
+    "mode": "wfo",
+    "files": {
+      "base": "/opt/outshow/run_20251001-063813_full/wf_leaderboard_base.csv",
+      "combos": "/opt/outshow/run_20251001-063813_full/wf_leaderboard_combos.csv",
+      "all": "/opt/outshow/run_20251001-063813_full/wf_leaderboard_all.csv"
+    }
+  },
+  "timeframes": [
+    "1m",
+    "5m",
+    "15m"
+  ],
+  "execution": {
+    "futures": true,
+    "contracts": 1.0,
+    "contract_value": 1.0,
+    "fee_perc": 0.0002,
+    "slippage": 0,
+    "tick_size": 0.1
+  },
+  "gates": {
+    "cvd_slope_min": 0.0,
+    "imbalance_min": 0.0
+  },
+  "timeout_cfg": {
+    "mode": "bars",
+    "max_hold_map": {
+      "1m": 480,
+      "5m": 480,
+      "15m": 480
+    },
+    "atr_timeout_len_map": {
+      "1m": 14,
+      "5m": 14,
+      "15m": 14
+    },
+    "atr_timeout_mult_map": {
+      "1m": 0.0,
+      "5m": 0.0,
+      "15m": 0.0
+    },
+    "atr_stop": {
+      "enabled": false,
+      "len": 14,
+      "mult": 1.5
+    },
+    "atr_tp": {
+      "enabled": false,
+      "len_map": {
+        "1m": 14,
+        "5m": 14,
+        "15m": 14
+      },
+      "mult_map": {
+        "1m": 2.0,
+        "5m": 2.0,
+        "15m": 2.0
+      }
+    },
+    "candle_stop": {
+      "enabled": false,
+      "lookback": 1
+    }
+  },
+  "base_methods": {
+    "1m": [
+      {
+        "name": "ema_crossover",
+        "params": {
+          "ema_fast": 9,
+          "ema_slow": 50
+        }
+      },
+      {
+        "name": "keltner_breakout",
+        "params": {
+          "ema_len": 20,
+          "atr_len": 10,
+          "mult": 2.0
+        }
+      },
+      {
+        "name": "boll_breakout",
+        "params": {
+          "bb_len": 20,
+          "bb_k": 2.5
+        }
+      }
+    ],
+    "5m": [
+      {
+        "name": "keltner_breakout",
+        "params": {
+          "ema_len": 20,
+          "atr_len": 10,
+          "mult": 2.0
+        }
+      },
+      {
+        "name": "keltner_breakout",
+        "params": {
+          "ema_len": 20,
+          "atr_len": 20,
+          "mult": 2.0
+        }
+      },
+      {
+        "name": "boll_breakout",
+        "params": {
+          "bb_len": 20,
+          "bb_k": 2.5
+        }
+      }
+    ],
+    "15m": [
+      {
+        "name": "ema_crossover",
+        "params": {
+          "ema_fast": 9,
+          "ema_slow": 26
+        }
+      },
+      {
+        "name": "keltner_breakout",
+        "params": {
+          "ema_len": 20,
+          "atr_len": 10,
+          "mult": 2.0
+        }
+      },
+      {
+        "name": "keltner_breakout",
+        "params": {
+          "ema_len": 20,
+          "atr_len": 10,
+          "mult": 2.0
+        }
+      }
+    ]
+  },
+  "combos": {
+    "1m": [
+      {
+        "name": "MAJ2(vwap_trend,ema_crossover)",
+        "type": "MAJ",
+        "window": 2,
+        "k": 2,
+        "members": [
+          "vwap_trend",
+          "ema_crossover"
+        ],
+        "params": {
+          "vwap_trend": {
+            "len": 20
+          },
+          "ema_crossover": {
+            "ema_fast": 9,
+            "ema_slow": 50
+          }
+        }
+      },
+      {
+        "name": "MAJ2(vwap_trend,ema_crossover,supertrend_flip_retest)",
+        "type": "MAJ",
+        "window": 2,
+        "k": 2,
+        "members": [
+          "vwap_trend",
+          "ema_crossover",
+          "supertrend_flip_retest"
+        ],
+        "params": {
+          "vwap_trend": {
+            "len": 20
+          },
+          "ema_crossover": {
+            "ema_fast": 9,
+            "ema_slow": 50
+          },
+          "supertrend_flip_retest": {
+            "atr_len": 10,
+            "mult": 1.5
+          }
+        }
+      },
+      {
+        "name": "MAJ2(vwap_trend,ema_crossover,fibo_pullback)",
+        "type": "MAJ",
+        "window": 2,
+        "k": 2,
+        "members": [
+          "vwap_trend",
+          "ema_crossover",
+          "fibo_pullback"
+        ],
+        "params": {
+          "vwap_trend": {
+            "len": 20
+          },
+          "ema_crossover": {
+            "ema_fast": 9,
+            "ema_slow": 50
+          },
+          "fibo_pullback": {
+            "ema_fast": 20,
+            "ema_slow": 50,
+            "fib_high": 0.618,
+            "fib_low": 0.5,
+            "swing_len": 20
+          }
+        }
+      }
+    ],
+    "5m": [
+      {
+        "name": "MAJ2(ema_crossover,macd_trend,boll_breakout)",
+        "type": "MAJ",
+        "window": 2,
+        "k": 2,
+        "members": [
+          "ema_crossover",
+          "macd_trend",
+          "boll_breakout"
+        ],
+        "params": {
+          "ema_crossover": {
+            "ema_fast": 8,
+            "ema_slow": 26
+          },
+          "macd_trend": {
+            "macd_fast": 8,
+            "macd_signal": 9,
+            "macd_slow": 21
+          },
+          "boll_breakout": {
+            "bb_k": 2.0,
+            "bb_len": 20
+          }
+        }
+      },
+      {
+        "name": "MAJ2(ema_crossover,macd_trend)",
+        "type": "MAJ",
+        "window": 2,
+        "k": 2,
+        "members": [
+          "ema_crossover",
+          "macd_trend"
+        ],
+        "params": {
+          "ema_crossover": {
+            "ema_fast": 8,
+            "ema_slow": 26
+          },
+          "macd_trend": {
+            "macd_fast": 8,
+            "macd_signal": 9,
+            "macd_slow": 21
+          }
+        }
+      },
+      {
+        "name": "MAJ2(ema_crossover,macd_trend,supertrend_flip_retest)",
+        "type": "MAJ",
+        "window": 2,
+        "k": 2,
+        "members": [
+          "ema_crossover",
+          "macd_trend",
+          "supertrend_flip_retest"
+        ],
+        "params": {
+          "ema_crossover": {
+            "ema_fast": 8,
+            "ema_slow": 26
+          },
+          "macd_trend": {
+            "macd_fast": 8,
+            "macd_signal": 9,
+            "macd_slow": 21
+          },
+          "supertrend_flip_retest": {
+            "atr_len": 10,
+            "mult": 3.0
+          }
+        }
+      }
+    ],
+    "15m": [
+      {
+        "name": "MAJ2(ema_crossover,macd_trend,boll_breakout)",
+        "type": "MAJ",
+        "window": 2,
+        "k": 2,
+        "members": [
+          "ema_crossover",
+          "macd_trend",
+          "boll_breakout"
+        ],
+        "params": {
+          "ema_crossover": {
+            "ema_fast": 9,
+            "ema_slow": 26
+          },
+          "macd_trend": {
+            "macd_fast": 8,
+            "macd_signal": 9,
+            "macd_slow": 21
+          },
+          "boll_breakout": {
+            "bb_k": 2.0,
+            "bb_len": 20
+          }
+        }
+      },
+      {
+        "name": "MAJ2(vwap_trend,ema_crossover,boll_breakout)",
+        "type": "MAJ",
+        "window": 2,
+        "k": 2,
+        "members": [
+          "vwap_trend",
+          "ema_crossover",
+          "boll_breakout"
+        ],
+        "params": {
+          "vwap_trend": {
+            "len": 20
+          },
+          "ema_crossover": {
+            "ema_fast": 9,
+            "ema_slow": 26
+          },
+          "boll_breakout": {
+            "bb_k": 2.0,
+            "bb_len": 20
+          }
+        }
+      },
+      {
+        "name": "MAJ2(ema_crossover,macd_trend)",
+        "type": "MAJ",
+        "window": 2,
+        "k": 2,
+        "members": [
+          "ema_crossover",
+          "macd_trend"
+        ],
+        "params": {
+          "ema_crossover": {
+            "ema_fast": 9,
+            "ema_slow": 26
+          },
+          "macd_trend": {
+            "macd_fast": 8,
+            "macd_signal": 9,
+            "macd_slow": 21
+          }
+        }
+      }
+    ]
+  },
+  "ml": {
+    "enabled": false,
+    "kind": "auto",
+    "horizon": 5,
+    "lags": 3,
+    "use_agg": false,
+    "use_depth": false,
+    "add_base_feats": false
+  }
+}

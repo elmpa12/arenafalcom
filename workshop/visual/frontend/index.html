@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Visual botscalpv3</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo-mark">falcomSoft</div>
+          <span class="logo-sub">by M. Margolis</span>
+        </div>
+        <div class="heading">
+          <h1>Replay de Estratégias</h1>
+          <p class="caption">Todos os pipelines, métricas e edge em um só lugar</p>
+        </div>
+        <div class="controls">
+          <label>Execução A
+            <select id="dataset-a"></select>
+          </label>
+          <label>Execução B
+            <select id="dataset-b"></select>
+          </label>
+          <div class="buttons">
+            <button id="btn-play" title="Space">Iniciar</button>
+            <button id="btn-pause">Pausar</button>
+            <label>Velocidade
+              <select id="speed">
+                <option value="1">1x</option>
+                <option value="2">2x</option>
+                <option value="5">5x</option>
+                <option value="10">10x</option>
+              </select>
+            </label>
+            <button id="btn-prev" title="Shift+←">⏮ Trade Anterior</button>
+            <button id="btn-next" title="Shift+→">⏭ Próx. Trade</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="scrubber">
+        <input type="range" id="scrubber" min="0" max="1000" value="0" />
+        <span id="time-label">--</span>
+      </section>
+
+      <main class="content">
+        <div class="pane" data-side="A">
+          <div class="pane-header">
+            <h2>Execução A</h2>
+            <div class="meta" id="meta-a"></div>
+          </div>
+          <div class="pipelines" id="pipelines-a"></div>
+          <div class="chart-grid">
+            <div class="chart" id="chart-a"></div>
+            <div class="chart" id="equity-a"></div>
+          </div>
+          <div class="kpis" id="kpis-a"></div>
+          <div class="trades" id="trades-a"></div>
+        </div>
+        <div class="pane" data-side="B">
+          <div class="pane-header">
+            <h2>Execução B</h2>
+            <div class="meta" id="meta-b"></div>
+          </div>
+          <div class="pipelines" id="pipelines-b"></div>
+          <div class="chart-grid">
+            <div class="chart" id="chart-b"></div>
+            <div class="chart" id="equity-b"></div>
+          </div>
+          <div class="kpis" id="kpis-b"></div>
+          <div class="trades" id="trades-b"></div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

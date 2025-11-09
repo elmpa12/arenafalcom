@@ -1,0 +1,60 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+.mypy_cache/
+
+# Virtual environments & secrets
+.venv/
+venv/
+.env
+env/
+ARENA_API_TOKEN
+
+# Logs & runtime files
+logs/
+*.log
+*.pid
+*.out
+*.tmp
+*.swp
+
+# Archives / datasets
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.xz
+*.zst
+*.bz2
+
+# Arena runtime state
+arena/dialogue/
+arena/memory/
+arena/control.pipe
+arena/tools/_tmp_exec.py
+
+# Workspace generated files
+workspace/logs/
+workspace/reports/workspace_inventory.csv
+workspace/.pytest_cache/
+workspace/.mypy_cache/
+
+# Workshop heavy folders
+workshop/data/
+workshop/data_monthly/
+workshop/out/
+workshop/resultados/
+workshop/logs/
+workshop/dialogue/
+workshop/sessions/
+workshop/node_modules/
+workshop/venv/
+
+# Backups & misc
+backups/
+*.bak
+.DS_Store

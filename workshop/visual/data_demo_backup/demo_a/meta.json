@@ -1,0 +1,60 @@
+{
+  "id": "demo_a",
+  "symbol": "BTCUSDT",
+  "timeframe": "5m",
+  "start": "2025-01-01T00:00:00Z",
+  "end": "2025-01-01T01:00:00Z",
+  "n_frames": 12,
+  "n_trades": 3,
+  "params": {
+    "strategy": "selector21",
+    "lags": 64,
+    "risk": 0.5
+  },
+  "kpis": {
+    "winrate": 0.66,
+    "sharpe": 1.45,
+    "max_drawdown": 120.5,
+    "profit_factor": 1.8,
+    "expectancy": 45.2,
+    "avg_trade": 45.2,
+    "n_trades": 3,
+    "hit_long": 0.5,
+    "hit_short": 1.0
+  },
+  "pipelines": [
+    {
+      "id": "combo-base",
+      "name": "Combos Base",
+      "type": "base",
+      "description": "Regras heurísticas calibradas para curto prazo.",
+      "edge": 0.18,
+      "kpis": {
+        "winrate": 0.58,
+        "expectancy": 32.4
+      }
+    },
+    {
+      "id": "ensemble-ml",
+      "name": "Ensemble Gradient",
+      "type": "ml",
+      "description": "Stacking de gradient boosting, SVM e regressão logística.",
+      "edge": 0.43,
+      "kpis": {
+        "winrate": 0.62,
+        "expectancy": 54.0
+      }
+    },
+    {
+      "id": "falcon-transformer",
+      "name": "Falcon Transformer Alpha",
+      "type": "dl",
+      "description": "Transformer multiescala com atenção hierárquica.",
+      "edge": 0.51,
+      "kpis": {
+        "winrate": 0.66,
+        "expectancy": 61.0
+      }
+    }
+  ]
+}

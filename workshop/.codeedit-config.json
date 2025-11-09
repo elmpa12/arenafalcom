@@ -1,0 +1,169 @@
+{
+  "version": "2.0",
+  "title": "Full Code Editing Configuration - Claude + GPT Unrestricted",
+  "description": "Remove ALL read-only restrictions. Claude and GPT have FULL access to modify any file.",
+  
+  "permissions": {
+    "filesystem_access": "FULL",
+    "edit_mode": "UNRESTRICTED",
+    "file_modification": "ALLOWED",
+    "file_deletion": "ALLOWED",
+    "directory_creation": "ALLOWED",
+    "readonly_restrictions": "DISABLED",
+    "immutable_files": "NONE"
+  },
+
+  "claude_permissions": {
+    "can_read": true,
+    "can_write": true,
+    "can_delete": true,
+    "can_create": true,
+    "can_execute": true,
+    "can_modify_dataclasses": true,
+    "can_modify_production_code": true,
+    "can_modify_configs": true,
+    "read_only": false,
+    "editing_restrictions": "NONE"
+  },
+
+  "gpt_permissions": {
+    "can_read": true,
+    "can_write": true,
+    "can_delete": true,
+    "can_create": true,
+    "can_execute": true,
+    "can_modify_dataclasses": true,
+    "can_modify_production_code": true,
+    "can_modify_configs": true,
+    "read_only": false,
+    "editing_restrictions": "NONE"
+  },
+
+  "accessible_paths": {
+    "full_repo": "/opt/botscalpv3",
+    "backend": "/opt/botscalpv3/backend",
+    "frontend": "/opt/botscalpv3/frontend",
+    "tools": "/opt/botscalpv3/tools",
+    "memory_store": "/opt/botscalpv3/memory_store",
+    "visual": "/opt/botscalpv3/visual",
+    "root_level": "/opt/botscalpv3",
+    "restriction_level": "NONE",
+    "can_access_all_subdirectories": true,
+    "can_access_config_files": true
+  },
+
+  "file_types_editable": {
+    ".py": true,
+    ".json": true,
+    ".md": true,
+    ".yaml": true,
+    ".yml": true,
+    ".txt": true,
+    ".csv": true,
+    ".sh": true,
+    ".js": true,
+    ".ts": true,
+    ".css": true,
+    ".html": true,
+    "any": "ALLOWED"
+  },
+
+  "special_files": {
+    "competitive_trader.py": {
+      "readonly": false,
+      "editable": true,
+      "can_modify_dataclasses": true,
+      "can_modify_logic": true
+    },
+    "agent_memory.py": {
+      "readonly": false,
+      "editable": true,
+      "can_modify_completely": true
+    },
+    "dialogue_engine.py": {
+      "readonly": false,
+      "editable": true,
+      "can_modify_completely": true
+    },
+    ".claude-config.json": {
+      "readonly": false,
+      "editable": true
+    },
+    "FLABS_HOWTO.md": {
+      "readonly": false,
+      "editable": true,
+      "can_expand": true,
+      "can_update": true
+    },
+    "COMPETITION_MODE.md": {
+      "readonly": false,
+      "editable": true,
+      "can_update": true
+    },
+    "MANIFESTO.md": {
+      "readonly": false,
+      "editable": true,
+      "can_rewrite": true
+    }
+  },
+
+  "mcp_filesystem_settings": {
+    "readonly": false,
+    "allow_all_operations": true,
+    "require_user_confirmation": false,
+    "validation_before_execute": false,
+    "sandbox_restrictions": "DISABLED"
+  },
+
+  "editing_capabilities": {
+    "can_create_new_files": true,
+    "can_delete_files": true,
+    "can_rename_files": true,
+    "can_move_files": true,
+    "can_refactor_code": true,
+    "can_optimize_code": true,
+    "can_rewrite_functions": true,
+    "can_modify_imports": true,
+    "can_add_dependencies": true,
+    "can_change_architecture": true,
+    "restrictions": "NONE"
+  },
+
+  "dataclass_handling": {
+    "can_modify_dataclasses": true,
+    "can_add_fields": true,
+    "can_remove_fields": true,
+    "can_change_types": true,
+    "immutable_marker_respected": false,
+    "ignore_immutable_docstrings": true
+  },
+
+  "ai_autonomy": {
+    "claude_autonomy_level": 10,
+    "gpt_autonomy_level": 10,
+    "require_approval": false,
+    "auto_commit_changes": true,
+    "can_modify_without_asking": true
+  },
+
+  "safety": {
+    "enforce_readonly": false,
+    "enforce_immutable": false,
+    "validate_syntax": true,
+    "test_before_commit": true,
+    "require_tests": false,
+    "auto_rollback": false
+  },
+
+  "git_operations": {
+    "auto_commit": true,
+    "auto_push": false,
+    "require_message": true,
+    "default_branch": "botscalpv3"
+  },
+
+  "mode": "UNRESTRICTED",
+  "status": "ACTIVE",
+  "last_updated": "2025-11-08",
+  "warning": "⚠️  FULL EDITING ACCESS ENABLED - Claude and GPT can modify ANY file in the repository"
+}

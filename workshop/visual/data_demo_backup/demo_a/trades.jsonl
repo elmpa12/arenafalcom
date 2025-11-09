@@ -1,0 +1,3 @@
+{"entry_t": "2025-01-01T00:05:00Z", "entry_px": 42060, "exit_t": "2025-01-01T00:15:00Z", "exit_px": 42110, "side": "LONG", "size": 1.0, "pnl": 50.0, "pnl_abs": 50.0, "sl": 41800, "tp": 42400, "pipeline": "combo-base"}
+{"entry_t": "2025-01-01T00:20:00Z", "entry_px": 42090, "exit_t": "2025-01-01T00:25:00Z", "exit_px": 42020, "side": "SHORT", "size": 1.0, "pnl": 70.0, "pnl_abs": 70.0, "pipeline": "ensemble-ml"}
+{"entry_t": "2025-01-01T00:45:00Z", "entry_px": 42000, "exit_t": "2025-01-01T00:55:00Z", "exit_px": 41960, "side": "LONG", "size": 1.5, "pnl": -60.0, "pnl_abs": 90.0, "sl": 41740, "tp": 42380, "pipeline": "falcon-transformer"}

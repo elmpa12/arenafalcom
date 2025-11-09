@@ -1,0 +1,23 @@
+{
+  "run_id": "test-demo",
+  "symbol": "BTCUSDT",
+  "period": {
+    "start": "2024-01-01",
+    "end": "2024-06-01"
+  },
+  "n_frames": 1000,
+  "n_trades": 10,
+  "kpis": {
+    "win_rate": 0.0,
+    "total_trades": 10,
+    "profit_factor": 0,
+    "sharpe_ratio": 0,
+    "max_drawdown": 0.0,
+    "total_pnl": 0,
+    "final_equity": 100000
+  },
+  "metadata": {
+    "exported_at": "2025-11-08T14:18:34.352597",
+    "exporter": "export_to_visual.py"
+  }
+}

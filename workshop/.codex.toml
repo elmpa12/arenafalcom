@@ -1,0 +1,154 @@
+################################################################################
+# SortePix / BotScalp v3 — Codex CLI Configuration (GPT-5 Codex Optimized)
+# Objetivo: IA competitiva, reasoning deep, assimilação rápida de projeto,
+#           logging automático via JOURNAL.TXT
+################################################################################
+
+# ============================================================
+# Núcleo — Seleção de Modelo (GPT-5 Codex)
+# ============================================================
+
+model = "gpt-5-codex"
+review_model = "gpt-5-codex"
+model_provider = "openai"
+
+# Contexto amplo + saída extensa (ideal para análise completa)
+model_context_window = 128000
+model_max_output_tokens = 16384
+model_auto_compact_token_limit = 0
+
+# ============================================================
+# Raciocínio e Verbosidade (Alta Profundidade)
+# ============================================================
+
+model_reasoning_effort = "high"
+model_reasoning_summary = "detailed"
+model_verbosity = "high"
+model_supports_reasoning_summaries = true
+model_reasoning_summary_format = "experimental"
+
+# ============================================================
+# Instruções e Prompts Base (Sistema Competitivo)
+# ============================================================
+
+# Prompts customizados com personas BICHO/CODEX
+experimental_instructions_file = "/opt/botscalpv3/prompt/system_prompt.txt"
+experimental_compact_prompt_file = "/opt/botscalpv3/prompt/compact_prompt.txt"
+
+# ============================================================
+# Aprovação e Sandbox (Escrita Local Permitida)
+# ============================================================
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+writable_roots = ["/opt/botscalpv3", "/tmp"]
+network_access = true
+exclude_tmpdir_env_var = false
+exclude_slash_tmp = false
+
+# ============================================================
+# Shell Environment (Herança Completa)
+# ============================================================
+
+[shell_environment_policy]
+inherit = "all"
+ignore_default_excludes = true
+exclude = []
+set = {}
+include_only = []
+experimental_use_profile = false
+
+# ============================================================
+# Histórico e Ferramentas
+# ============================================================
+
+[history]
+persistence = "save-all"
+file_opener = "vscode"
+
+[tools]
+web_search = true
+view_image = true
+
+[features]
+unified_exec = true
+streamable_shell = true
+apply_patch_freeform = true
+ghost_commit = true
+web_search_request = true
+
+# ============================================================
+# Logging e Telemetria
+# ============================================================
+
+# Log de raciocínio + decisões técnicas
+[otel]
+log_user_prompt = true
+environment = "competition"
+exporter = "none"
+
+# ============================================================
+# Perfil Padrão — "competicao" (Codex Elite Mode)
+# ============================================================
+
+[profiles]
+[profiles.competicao]
+model = "gpt-5-codex"
+model_provider = "openai"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+model_reasoning_effort = "high"
+model_reasoning_summary = "detailed"
+model_verbosity = "high"
+chatgpt_base_url = "https://chatgpt.com/backend-api/"
+tools_web_search = true
+tools_view_image = true
+features = { unified_exec = true }
+
+# ============================================================
+# Logging Operacional — JOURNAL.TXT (Automático)
+# ============================================================
+
+# Quando Codex CLI executar com este arquivo, deve:
+# 1. Ler JOURNAL.txt (contexto anterior)
+# 2. Executar tarefa
+# 3. Registrar em JOURNAL.txt com:
+#    YYYY-MM-DDTHH:MM:SSZ | actor: CODEX | phase: [intake/analysis/plan/impl/test]
+#    Summary: <ação>
+#    Files touched: <arquivos>
+#    Decisions & rationale: <bullets curtos>
+#    Artifacts: <PIB vN, scripts gerados>
+#    TODOs: [crit/perf/data/ml/testing]
+#    Next actions: <3 passos>
+#    Commit: <hash git se houver>
+
+journal_path = "/opt/botscalpv3/JOURNAL.txt"
+auto_journal_logging = true
+journal_reasoning_capture = true
+
+# ============================================================
+# Configuração Específica — Codex CLI em Modo Trading Bot
+# ============================================================
+
+# Quando executar análises de código:
+#   codex --profile competicao "analisa backend/openai_gateway.py"
+#
+# Quando revisar estratégias:
+#   codex --profile competicao "propõe 3 otimizações para latência"
+#
+# Quando implementar features:
+#   codex --profile competicao "implementa Phase 2-A com logging"
+
+[codex_trading_bot_mode]
+initial_context = "PIB_v1.md"
+journal_integration = true
+auto_git_commit = false
+reasoning_depth = "championship"
+code_review_enabled = true
+performance_optimization = true
+
+################################################################################
+# Fim do arquivo — Codex CLI pronto para modo competição
+################################################################################

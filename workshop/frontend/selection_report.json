@@ -1,0 +1,37 @@
+{
+  "range_used": {
+    "start": "2025-08-15 00:00:00+00:00",
+    "end": "2025-09-01 00:00:00+00:00"
+  },
+  "files": {
+    "leaderboard_base": "leaderboard_base.csv",
+    "leaderboard_combos": "leaderboard_combos.csv",
+    "leaderboard_all": "leaderboard_all.csv",
+    "best_trades": "best_trades.csv"
+  },
+  "feature_meta": {
+    "1m": {
+      "cvd_present": false,
+      "cvd_nonnull": 0.0,
+      "imb_present": true,
+      "imb_nonnull": 1.0
+    }
+  },
+  "timeout_cfg": {
+    "mode": "bars",
+    "max_hold_map": {
+      "1m": 480
+    },
+    "atr_timeout_len_map": {
+      "1m": 14
+    },
+    "atr_timeout_mult_map": {
+      "1m": 0.0
+    },
+    "atr_stop": {
+      "enabled": false,
+      "len": 14,
+      "mult": 1.5
+    }
+  }
+}

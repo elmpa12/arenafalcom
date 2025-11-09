@@ -1,0 +1,56 @@
+{
+  "fase_atual": "1_backtests_exigentes",
+  "fases": [
+    {
+      "fase": "1_backtests_exigentes",
+      "status": "EM_PROGRESSO",
+      "descricao": "Integrar auto-evolution com selector21 backtests",
+      "modelos_ml": [
+        "XGBoost",
+        "RandomForest",
+        "LogReg",
+        "Ensemble"
+      ],
+      "objetivo": "Setup qualificado com an\u00e1lise dual cont\u00ednua",
+      "proximos_passos": [
+        "Rodar walk-forward com auto-evolution",
+        "Analisar logs de aprendizado",
+        "Validar a\u00e7\u00f5es propostas por Claude + GPT",
+        "Atingir m\u00e9tricas m\u00ednimas (70%+ win rate, Sharpe > 1.5)"
+      ]
+    },
+    {
+      "fase": "2_deep_learning",
+      "status": "PENDENTE",
+      "descricao": "Auto-evolution aprende com DL (GRU, TCN, Transformers)",
+      "modelos_dl": [
+        "GRU",
+        "TCN",
+        "Transformers"
+      ],
+      "objetivo": "IAs aprendem com modelos deep learning",
+      "dependencias": [
+        "Fase 1 qualificada"
+      ]
+    },
+    {
+      "fase": "3_paper_trading",
+      "status": "PENDENTE",
+      "descricao": "Auto-evolution em tempo real (paper trading)",
+      "objetivo": "Sistema aprende com mercado ao vivo (sem risco)",
+      "dependencias": [
+        "Fase 2 qualificada"
+      ]
+    },
+    {
+      "fase": "4_real_trading",
+      "status": "PENDENTE",
+      "descricao": "Auto-evolution em produ\u00e7\u00e3o (real trading)",
+      "objetivo": "Sistema evolui continuamente em produ\u00e7\u00e3o",
+      "dependencias": [
+        "Fase 3 qualificada",
+        "M\u00e9tricas consistentes"
+      ]
+    }
+  ]
+}

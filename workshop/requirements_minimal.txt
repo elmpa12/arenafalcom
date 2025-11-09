@@ -1,0 +1,55 @@
+# Core dependencies sem os problemáticos
+python-dotenv>=1.0.0
+requests>=2.31.0
+pyyaml>=6.0
+
+# AWS
+boto3>=1.34.0
+botocore>=1.34.0
+paramiko>=3.4.0
+awscli>=1.36.0
+
+# Web Services
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.9.0
+pydantic-settings>=2.0.0
+orjson>=3.10.0
+
+# Data Science (versões compatíveis)
+numpy>=1.24.0,<2.0
+scipy>=1.11.0
+pandas>=2.2.0
+pyarrow>=14.0.0
+
+# Machine Learning
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+imbalanced-learn>=0.11.0
+
+# Deep Learning - usar versões instaladas
+# torch, torchvision, torchaudio já estão instalados
+
+# Trading
+binance-connector>=3.7.0
+python-binance>=1.0.19
+
+# AI APIs
+openai>=1.0.0
+anthropic>=0.18.0
+
+# WebSockets
+websockets>=12.0
+
+# Utils
+tqdm>=4.66.0
+psutil>=5.9.0
+pynvml>=11.5.0
+
+# Development
+pytest>=8.3.0
+pytest-cov>=5.0.0
+pytest-asyncio>=0.23.0
+ruff>=0.6.0
+black>=24.10.0
+mypy>=1.8.0

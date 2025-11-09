@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Claudex wrapper - permite executar "claudex" direto
+# Usage: claudex [args...]
+
+BOTSCALP_DIR="/home/user/botscalpv3"
+exec python3 "$BOTSCALP_DIR/claudex.py" "$@"

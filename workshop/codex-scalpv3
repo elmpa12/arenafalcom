@@ -1,0 +1,206 @@
+#!/bin/bash
+################################################################################
+# codex-scalpv3 — Wrapper para Codex CLI com JOURNAL auto-logging
+# Propósito: chamar Codex com .codex.toml, capturar reasoning, logar ao JOURNAL.txt
+# Uso: ./codex-scalpv3 "sua análise aqui"
+#      ./codex-scalpv3 -c "análise compacta"
+#      ./codex-scalpv3 --profile competicao "tarefa específica"
+################################################################################
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CODEX_CONFIG="${SCRIPT_DIR}/.codex.toml"
+JOURNAL_FILE="${SCRIPT_DIR}/JOURNAL.txt"
+JOURNAL_LOCK="/tmp/codex-journal.lock"
+
+# Cores para output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# ============================================================
+# Funções Auxiliares
+# ============================================================
+
+log_info() {
+    echo -e "${BLUE}[CODEX]${NC} $1"
+}
+
+log_success() {
+    echo -e "${GREEN}✅${NC} $1"
+}
+
+log_warning() {
+    echo -e "${YELLOW}⚠️${NC} $1"
+}
+
+log_error() {
+    echo -e "${RED}❌${NC} $1" >&2
+}
+
+check_requirements() {
+    if ! command -v python3 &> /dev/null; then
+        log_error "Python3 não encontrado"
+        exit 1
+    fi
+    
+    # Codex CLI é opcional — se não estiver, usar fallback
+    return 0
+}
+
+# ============================================================
+# Lógica Principal
+# ============================================================
+
+main() {
+    check_requirements
+    
+    local prompt="${1:-}"
+    local extra_args="${@:2}"
+    
+    if [[ -z "$prompt" ]]; then
+        log_error "Uso: $0 \"seu prompt aqui\" [flags Codex]"
+        echo "  Exemplos:"
+        echo "    $0 \"analisa backend/openai_gateway.py\""
+        echo "    $0 \"propõe 3 otimizações para latência\" --profile competicao"
+        echo "    $0 -c \"versão compacta\""
+        exit 1
+    fi
+    
+    log_info "Inicializando Codex CLI com .codex.toml"
+    log_info "Prompt: $prompt"
+    
+    # Captura timestamp
+    local START_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    local START_EPOCH=$(date +%s)
+    
+    # Verifica se Codex CLI está disponível E autenticado
+    if command -v codex &> /dev/null; then
+        # Tenta executar Codex CLI real com @openai/codex
+        log_info "Executando análise com Codex CLI (OpenAI @openai/codex)..."
+        local output
+        # Usa o comando 'exec' do @openai/codex para execução não-interativa
+        if output=$(codex exec "$prompt" 2>&1); then
+            
+            log_success "Análise completada"
+            echo ""
+            echo "=== RESULTADO CODEX CLI ===" 
+            echo "$output"
+            echo ""
+            
+            # Calcula tempo de execução
+            local END_EPOCH=$(date +%s)
+            local DURATION=$((END_EPOCH - START_EPOCH))
+            
+            # Registra no JOURNAL
+            if [[ ${#output} -gt 50 ]]; then
+                log_info "Registrando no JOURNAL.txt..."
+                _append_journal_entry "$START_TIME" "$prompt" "$DURATION" "$output"
+            fi
+        else
+            # Se falhar com Codex CLI, usar fallback gateway
+            log_warning "Codex CLI não autenticado ou indisponível, usando gateway (fallback)"
+            _execute_gateway_codex "$START_TIME" "$prompt" "$extra_args"
+        fi
+    else
+        # Fallback: usar gateway BICHO com raciocínio simulado
+        log_warning "Codex CLI não encontrado, usando Codex mode via gateway (fallback)"
+        _execute_gateway_codex "$START_TIME" "$prompt" "$extra_args"
+    fi
+}
+
+# ============================================================
+# Fallback: Gateway Codex Mode (quando Codex CLI não está disponível)
+# ============================================================
+
+_execute_gateway_codex() {
+    local timestamp="$1"
+    local prompt="$2"
+    local extra_args="$3"
+    
+    local GATEWAY_URL="https://bs3.falcomlabs.com/codex/api/codex"
+    
+    log_info "Enviando para gateway com mode=codex..."
+    
+    local START_EPOCH=$(date +%s)
+    
+    # Montar payload com mode=codex
+    local PAYLOAD=$(jq -n \
+        --arg prompt "$prompt" \
+        --arg model "gpt-4o" \
+        --arg mode "codex" \
+        '{prompt: $prompt, model: $model, mode: $mode}')
+    
+    local RESPONSE=$(curl -s -X POST "$GATEWAY_URL" \
+        -H "Content-Type: application/json" \
+        -d "$PAYLOAD")
+    
+    # Extrair resultado
+    local output=$(echo "$RESPONSE" | jq -r '.result' 2>/dev/null || echo "$RESPONSE")
+    
+    if [[ -n "$output" && "$output" != "null" ]]; then
+        log_success "Gateway response recebida"
+        echo ""
+        echo "=== RESULTADO CODEX (via gateway) ===" 
+        echo "$output"
+        echo ""
+        
+        local END_EPOCH=$(date +%s)
+        local DURATION=$((END_EPOCH - START_EPOCH))
+        
+        # Registra no JOURNAL
+        if [[ ${#output} -gt 50 ]]; then
+            log_info "Registrando no JOURNAL.txt..."
+            _append_journal_entry "$timestamp" "$prompt" "$DURATION" "$output (via gateway)"
+        fi
+    else
+        log_error "Gateway retornou erro ou resposta vazia"
+        echo "$RESPONSE" >&2
+        exit 1
+    fi
+}
+
+# ============================================================
+# Append ao JOURNAL.txt com lock
+# ============================================================
+
+_append_journal_entry() {
+    local timestamp="$1"
+    local prompt="$2"
+    local duration="$3"
+    local output="$4"
+    
+    # Acquire lock
+    exec 200>"$JOURNAL_LOCK"
+    flock -n 200 || {
+        log_warning "JOURNAL.txt bloqueado, pulando log"
+        return 0
+    }
+    
+    # Prepara entrada
+    local summary=$(echo "$prompt" | head -c 100)
+    local output_preview=$(echo "$output" | head -c 200 | tr '\n' ' ')
+    
+    {
+        echo ""
+        echo "=== CODEX CLI EXECUTION ==="
+        echo "$timestamp | actor: CODEX-CLI | phase: execution | duration: ${duration}s"
+        echo "Prompt: $summary"
+        echo "Output preview: $output_preview"
+        echo ""
+    } >> "$JOURNAL_FILE"
+    
+    # Release lock
+    flock -u 200
+    
+    log_success "Entrada registrada no JOURNAL.txt (${duration}s)"
+}
+
+# ============================================================
+# Executa
+# ============================================================
+
+main "$@"

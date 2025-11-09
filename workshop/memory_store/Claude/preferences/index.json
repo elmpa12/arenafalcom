@@ -1,0 +1,41 @@
+{
+  "architecture": [
+    {
+      "preference": "elegance_over_complexity",
+      "strength": 9,
+      "timestamp": "2025-11-08T02:27:14.376358"
+    },
+    {
+      "preference": "elegance_over_complexity",
+      "strength": 9,
+      "timestamp": "2025-11-08T02:27:58.215414"
+    }
+  ],
+  "strategy_confidence": [
+    {
+      "preference": "regime_1",
+      "strength": 7,
+      "timestamp": "2025-11-08T02:37:05.972726"
+    },
+    {
+      "preference": "regime_2",
+      "strength": 7,
+      "timestamp": "2025-11-08T02:37:05.973571"
+    },
+    {
+      "preference": "regime_3",
+      "strength": 7,
+      "timestamp": "2025-11-08T02:37:05.974386"
+    },
+    {
+      "preference": "regime_4",
+      "strength": 7,
+      "timestamp": "2025-11-08T02:37:05.975199"
+    },
+    {
+      "preference": "regime_1",
+      "strength": 7,
+      "timestamp": "2025-11-08T02:37:05.976011"
+    }
+  ]
+}
